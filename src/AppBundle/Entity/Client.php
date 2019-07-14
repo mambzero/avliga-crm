@@ -60,6 +60,14 @@ class Client
     private $vat;
 
     /**
+     * Discount value percentage
+     * @var float
+     *
+     * @ORM\Column(name="discount", type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $discount;
+
+    /**
      * @var string
      */
     private $vatNumber;
@@ -212,6 +220,25 @@ class Client
     private function setVatNumber()
     {
         $this->vatNumber = self::VAT_NUMBER_PREFIX.$this->uniqueIdentifier;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getDiscount()
+    {
+        if (intval($this->discount) == $this->discount) {
+            return (int) $this->discount;
+        }
+        return $this->discount;
+    }
+
+    /**
+     * @param float $discount
+     */
+    public function setDiscount($discount)
+    {
+        $this->discount = $discount;
     }
 }
 
