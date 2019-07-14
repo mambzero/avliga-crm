@@ -55,7 +55,7 @@ class Client
     /**
      * @var bool
      *
-     * @ORM\Column(name="vat", type="boolean")
+     * @ORM\Column(name="vat", type="boolean", options={"default" : 0})
      */
     private $vat;
 
@@ -63,7 +63,7 @@ class Client
      * Discount value percentage
      * @var float
      *
-     * @ORM\Column(name="discount", type="decimal", precision=10, scale=2, nullable=true)
+     * @ORM\Column(name="discount", type="decimal", precision=10, scale=2, nullable=false)
      */
     private $discount;
 
@@ -71,7 +71,6 @@ class Client
      * @var string
      */
     private $vatNumber;
-
 
     /**
      * Get id
