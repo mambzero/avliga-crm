@@ -57,4 +57,30 @@ class ClientController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/clients/edit/{id}", name="clients_edit", methods={"GET","POST"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     *
+     * @param Request $request
+     * @param Client $client
+     * @return Response
+     */
+
+    public function editClient(Request $request, Client $client)
+    {
+        $form = $this->createForm(ClientType::class,$client);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $this->clientService->update($client);
+            return $this->redirectToRoute('clients_list');
+        }
+
+        return $this->render('client/edit.html.twig',[
+            'client' => $client,
+            'form' => $form->createView()
+        ]);
+
+    }
+
 }

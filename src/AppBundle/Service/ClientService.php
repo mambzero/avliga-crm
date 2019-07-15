@@ -5,13 +5,12 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Client;
-use AppBundle\Repository\ClientRepository;
 use AppBundle\Repository\ClientRepositoryInterface;
 
 class ClientService implements ClientServiceInterface
 {
     /**
-     * @var ClientRepositoryInterface|ClientRepository
+     * @var ClientRepositoryInterface
      */
     private $clientRepository;
 
@@ -24,7 +23,6 @@ class ClientService implements ClientServiceInterface
         $this->clientRepository = $clientRepository;
     }
 
-
     /**
      * @param Client $client
      * @return bool
@@ -35,10 +33,19 @@ class ClientService implements ClientServiceInterface
     }
 
     /**
+     * @param Client $client
+     * @return bool
+     */
+    public function update(Client $client)
+    {
+        return $this->clientRepository->update($client);
+    }
+
+    /**
      * @return Client[]
      */
     public function listAll()
     {
-        return $this->clientRepository->findAll();
+        return $this->clientRepository->listAll();
     }
 }

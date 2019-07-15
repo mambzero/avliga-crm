@@ -43,4 +43,27 @@ class ClientRepository extends EntityRepository implements ClientRepositoryInter
         return true;
     }
 
+    /**
+     * @param Client $client
+     * @return bool
+     */
+    public function update(Client $client)
+    {
+        try {
+            $this->_em->merge($client);
+            $this->_em->flush();
+        } catch (\Exception $e) {
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * @return Client[]
+     */
+    public function listAll()
+    {
+        return $this->findAll();
+    }
+
 }

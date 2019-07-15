@@ -48,7 +48,9 @@
                         <td>{{ client.vatNumber }}</td>
                         <td>{{ client.responsiblePerson }}</td>
                         <td>{{ client.discount }}%</td>
-                        <td>...</td>
+                        <td>
+                            <a href="{{ path('clients_edit', {id: client.id}) }}" class="btn btn-sm btn-success">Edit</a>
+                        </td>
                     </tr>
                     {% endfor %}
                     </tbody>
