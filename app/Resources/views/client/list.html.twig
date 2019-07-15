@@ -49,6 +49,7 @@
                         <td>{{ client.responsiblePerson }}</td>
                         <td>{{ client.discount }}%</td>
                         <td>
+                            <a href="{{ path('clients_view', {id: client.id}) }}" class="btn btn-sm btn-info">View</a>
                             <a href="{{ path('clients_edit', {id: client.id}) }}" class="btn btn-sm btn-success">Edit</a>
                         </td>
                     </tr>

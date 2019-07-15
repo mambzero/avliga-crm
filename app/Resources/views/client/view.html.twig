@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+{#    <div class="d-sm-flex align-items-center justify-content-between mb-4">#}
+{#        <h1 class="h3 mb-0 text-gray-800">Client id: {{ client.id }}</h1>#}
+{#    </div>#}
+
+    <div class="row">
+        <!-- Client Data -->
+        <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">{{ client.company }}</h6>
+            </div>
+            <div class="card-body">
+                <p>Address: {{ client.address }}</p>
+                <p>Unique Identifier: {{ client.uniqueIdentifier }}</p>
+                <p>VAT Number: {{ client.vatNumber }}</p>
+                <p>Responsible Person: {{ client.responsiblePerson }}</p>
+                <p>Discount: {{ client.discount }}</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+

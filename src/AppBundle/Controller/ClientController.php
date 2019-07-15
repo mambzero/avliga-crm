@@ -83,4 +83,18 @@ class ClientController extends Controller
 
     }
 
+    /**
+     * @Route("/clients/view/{id}", name="clients_view")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     *
+     * @param Client $client
+     * @return Response
+     */
+    public function clientView(Client $client)
+    {
+        return $this->render('client/view.html.twig',[
+            'client' => $client
+        ]);
+    }
+
 }
