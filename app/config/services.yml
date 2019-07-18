@@ -30,6 +30,10 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    AppBundle\Service\FileService:
+        arguments:
+            $rootDir: '%kernel.project_dir%'
+
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:

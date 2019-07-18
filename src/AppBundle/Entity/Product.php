@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Product
@@ -55,6 +56,11 @@ class Product
      * @ORM\Column(name="active", type="boolean", options={"default" : 0})
      */
     private $active;
+
+    /**
+     * @var UploadedFile|string
+     */
+    private $image;
 
 
     /**
@@ -188,14 +194,36 @@ class Product
     }
 
     /**
-     * @return bool
+     * @return string|UploadedFile
      */
-    public function isActive()
+    public function getImage()
+    {
+        if ($this->image instanceof UploadedFile) {
+            return $this->image;
+        }
+        return $this->imageUrl;
+    }
+
+    /**
+     * @param UploadedFile|null $image
+     * @return Product
+     */
+    public function setImage(?UploadedFile $image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * #return string
+     */
+    public function getStatus()
     {
         if ($this->getActive()) {
-            return true;
+            return 'Active';
         }
-        return false;
+        return 'Disabled';
     }
 }
 
