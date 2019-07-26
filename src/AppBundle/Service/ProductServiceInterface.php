@@ -5,6 +5,7 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Product;
+use AppBundle\Repository\ProductRepository;
 
 interface ProductServiceInterface
 {
@@ -12,22 +13,28 @@ interface ProductServiceInterface
      * @param Product $product
      * @return bool
      */
-    public function add(Product $product);
+    public function add(Product $product): bool;
 
     /**
      * @param Product $product
      * @return bool
      */
-    public function edit(Product $product);
+    public function edit(Product $product): bool;
 
     /**
      * @return Product[]
      */
-    public function listAll();
+    public function listAll(): array;
+
+    /**
+     * @return Product[]
+     */
+    public function listActive(): array;
 
     /**
      * @param int $id
      * @return Product|null
      */
-    public function getById($id);
+    public function getById($id): ?Product;
+
 }

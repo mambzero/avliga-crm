@@ -62,7 +62,8 @@ class FileService
      * @return FileService
      */
 
-    public function setSubDir($subDir) {
+    public function setSubDir($subDir): FileService
+    {
 
         $this->subDir = '/'.$subDir;
         $subDir = $this->rootDir.$this->mainDir.$this->subDir;
@@ -78,10 +79,10 @@ class FileService
     }
 
     /**
-     * @param UploadedFile | string $file
+     * @param UploadedFile $file
      * @return FileService
      */
-    public function setFile($file)
+    public function setFile(UploadedFile $file): FileService
     {
         $this->file = $file;
 
@@ -91,7 +92,7 @@ class FileService
     /**
      * @param string $fileUrl
      */
-    private function setFileUrl($fileUrl)
+    private function setFileUrl(string $fileUrl)
     {
         $this->fileUrl = $fileUrl;
     }
@@ -99,7 +100,7 @@ class FileService
     /**
      * @return UploadedFile
      */
-    private function getFile()
+    private function getFile(): UploadedFile
     {
         return $this->file;
     }
@@ -107,7 +108,7 @@ class FileService
     /**
      * @return string
      */
-    public function getFileUrl()
+    public function getFileUrl(): string
     {
         return $this->fileUrl;
     }
@@ -140,7 +141,8 @@ class FileService
      * @return FileService
      */
 
-    public function deleteFile($fileUrl) {
+    public function deleteFile(string $fileUrl): FileService
+    {
         $filePath = $this->rootDir.$fileUrl;
         if (file_exists($filePath) && isset($fileUrl)) {
             unlink($filePath);

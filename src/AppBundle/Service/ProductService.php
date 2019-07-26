@@ -24,7 +24,7 @@ class ProductService implements ProductServiceInterface
      * @param Product $product
      * @return bool
      */
-    public function add(Product $product)
+    public function add(Product $product): bool
     {
 
         $file = $product->getImage();
@@ -41,7 +41,7 @@ class ProductService implements ProductServiceInterface
      * @param Product $product
      * @return bool
      */
-    public function edit(Product $product)
+    public function edit(Product $product): bool
     {
 
         $file = $product->getImage();
@@ -58,7 +58,7 @@ class ProductService implements ProductServiceInterface
     /**
      * @return Product[]
      */
-    public function listAll()
+    public function listAll(): array
     {
         return $this->productRepository->listAll();
     }
@@ -67,8 +67,17 @@ class ProductService implements ProductServiceInterface
      * @param int $id
      * @return Product|null
      */
-    public function getById($id)
+    public function getById($id): ?Product
     {
         return $this->productRepository->findOne($id);
     }
+
+    /**
+     * @return Product[]
+     */
+    public function listActive(): array
+    {
+        return $this->productRepository->listActive();
+    }
+
 }

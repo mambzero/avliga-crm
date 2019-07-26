@@ -27,7 +27,7 @@ class ClientService implements ClientServiceInterface
      * @param Client $client
      * @return bool
      */
-    public function register(Client $client)
+    public function register(Client $client): bool
     {
         return $this->clientRepository->register($client);
     }
@@ -36,7 +36,7 @@ class ClientService implements ClientServiceInterface
      * @param Client $client
      * @return bool
      */
-    public function update(Client $client)
+    public function update(Client $client): bool
     {
         return $this->clientRepository->update($client);
     }
@@ -44,8 +44,17 @@ class ClientService implements ClientServiceInterface
     /**
      * @return Client[]
      */
-    public function listAll()
+    public function listAll(): array
     {
         return $this->clientRepository->listAll();
+    }
+
+    /**
+     * @param int $id
+     * @return Client|null
+     */
+    public function getById(int $id): ?Client
+    {
+        return $this->clientRepository->findOne($id);
     }
 }
