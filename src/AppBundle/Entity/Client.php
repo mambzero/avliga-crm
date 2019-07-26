@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -71,6 +72,19 @@ class Client
      * @var string
      */
     private $vatNumber;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Order", mappedBy="client")
+     */
+    private $orders;
+
+    public function __construct()
+    {
+        $this->orders = new ArrayCollection();
+    }
+
 
     /**
      * Get id
@@ -239,5 +253,22 @@ class Client
     {
         $this->discount = $discount;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getOrders()
+    {
+        return $this->orders;
+    }
+
+    /**
+     * @param ArrayCollection $orders
+     */
+    public function setOrders($orders)
+    {
+        $this->orders = $orders;
+    }
+
 }
 

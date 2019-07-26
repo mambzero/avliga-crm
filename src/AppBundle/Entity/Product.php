@@ -30,7 +30,7 @@ class Product
     private $title;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="price", type="decimal", precision=10, scale=2, nullable=false)
      */
@@ -100,7 +100,7 @@ class Product
     /**
      * Set price
      *
-     * @param string $price
+     * @param float $price
      *
      * @return Product
      */
@@ -114,7 +114,7 @@ class Product
     /**
      * Get price
      *
-     * @return string
+     * @return float
      */
     public function getPrice()
     {
@@ -216,7 +216,7 @@ class Product
     }
 
     /**
-     * #return string
+     * @return string
      */
     public function getStatus()
     {
