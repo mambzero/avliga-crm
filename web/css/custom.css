@@ -4,3 +4,39 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    @page { margin: 0; }
+    body { margin: 10mm; }
+    .print-logo {
+        margin-bottom: 5mm;
+        margin-left: -5mm;
+        width: 70mm;
+    }
+}
+
+@media screen {
+    .print-only {
+        display: none;
+    }
+}
+
+label > ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+    color: red;
+    position: absolute;
+    right: 1em;
+}
+
+.tooltip-inner > ul {
+    margin: 0px;
+    padding: 5px;
+    list-style: none;
+    font-size: 15px;
+}
