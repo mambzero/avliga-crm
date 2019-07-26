@@ -31,7 +31,7 @@ class ClientRepository extends EntityRepository implements ClientRepositoryInter
      * @param Client $client
      * @return bool
      */
-    public function register(Client $client)
+    public function register(Client $client): bool
     {
         try {
             $this->_em->persist($client);
@@ -47,7 +47,7 @@ class ClientRepository extends EntityRepository implements ClientRepositoryInter
      * @param Client $client
      * @return bool
      */
-    public function update(Client $client)
+    public function update(Client $client): bool
     {
         try {
             $this->_em->merge($client);
@@ -61,9 +61,17 @@ class ClientRepository extends EntityRepository implements ClientRepositoryInter
     /**
      * @return Client[]
      */
-    public function listAll()
+    public function listAll(): array
     {
         return $this->findAll();
     }
 
+    /**
+     * @param int $id
+     * @return Client|Object|null
+     */
+    public function findOne(int $id): ?Client
+    {
+        return $this->find(['id' => $id]);
+    }
 }
