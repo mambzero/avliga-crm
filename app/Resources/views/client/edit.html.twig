@@ -8,30 +8,30 @@
         <div class="col-lg-6 col-md-6">
             <form method="post">
                 <div class="form-group">
-                    <label>Company</label>
+                    <label>Company{{ form_errors(form.company) }}</label>
                     <input type="text" name="client[company]" class="form-control" id="companyName"
                            placeholder="Name..." value="{{ client.company }}">
                 </div>
                 <div class="form-group">
-                    <label>Address</label>
+                    <label>Address{{ form_errors(form.address) }}</label>
                     <input type="text" name="client[address]" class="form-control" id="companyAddress"
                            placeholder="Address..." value="{{ client.address }}">
                 </div>
 
                 <div class="form-group">
-                    <label>Responsible Person</label>
+                    <label>Responsible Person{{ form_errors(form.responsiblePerson) }}</label>
                     <input type="text" name="client[responsiblePerson]" class="form-control" id="responsiblePerson"
                            placeholder="Responsible Person..." value="{{ client.responsiblePerson }}">
                 </div>
 
                 <div class="form-group">
-                    <label>Unique Identifier (EIK)</label>
+                    <label>Unique Identifier (EIK){{ form_errors(form.uniqueIdentifier) }}</label>
                     <input type="text" name="client[uniqueIdentifier]" class="form-control" id="uniqueIdentifier"
                            placeholder="Unique Identifier..." value="{{ client.uniqueIdentifier }}">
                 </div>
 
                 <div class="form-group">
-                    <label>Discount</label>
+                    <label>Discount{{ form_errors(form.discount) }}</label>
                     <input type="number" name="client[discount]" class="form-control" id="uniqueIdentifier"
                            placeholder="Discount percentage..." step="any" value="{{ client.discount }}">
                 </div>
