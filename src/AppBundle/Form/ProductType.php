@@ -8,7 +8,14 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class ProductType extends AbstractType
 {
@@ -16,15 +23,18 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('price', NumberType::class)
-            ->add('isbn', TextType::class)
-            ->add('image', FileType::class,[
-                'data' => null
-            ])
-            ->add('active', CheckboxType::class,[
-                'required' => false
-            ]);
+            ->add('title', TextType::class, $this->getOptions('title'))
+            ->add('price', NumberType::class, $this->getOptions('price'))
+            ->add('isbn', TextType::class, $this->getOptions('isbn'))
+            ->add('image', FileType::class, $this->getOptions('image'))
+            ->add('active', CheckboxType::class,$this->getOptions('active'))
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $product = $event->getData();
+            $form = $event->getForm();
+            if (!$product || null === $product->getId()) {
+                $form->add('image', FileType::class, $this->getOptions('image', true));
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -39,5 +49,47 @@ class ProductType extends AbstractType
         return 'product';
     }
 
+    /**
+     * Returns field options.
+     *
+     * @param $field
+     * @param bool $isNewRecord
+     * @return array
+     */
+    private function getOptions($field, $isNewRecord = false): array
+    {
+
+        $options = [];
+
+        $notBlank = ucfirst($field).' should not be blank.';
+
+        switch ($field) {
+            case "title":
+            case "isbn":
+                $options['constraints'] = [
+                    new NotBlank(['message' => $notBlank]),
+                    new Length(['min' => 3, 'max' => 255])
+                ];
+                break;
+            case "price":
+                $options['constraints'] = [
+                    new NotNull(['message' => $notBlank]),
+                    new GreaterThanOrEqual(0)
+                ];
+                break;
+            case "image":
+                $options['data'] = null;
+                $options['constraints'][] = new Image();
+                if ($isNewRecord) {
+                    $options['constraints'][] = new NotNull(['message' => 'Upload image file.']);
+                }
+                break;
+            case "active":
+                $options['required'] = false;
+                break;
+        }
+
+        return $options;
+    }
 
 }
