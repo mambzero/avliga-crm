@@ -1,0 +1,228 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('css/component-chosen.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/tooltip.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% macro printDetailRow(form) %}
+    <td>
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.product) }}">
+            {{ form_widget(form.product, { 'attr': {'class': 'form-control chosen-plugin'} }) }}
+        </span>
+    </td>
+    <td>
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.quantity) }}">
+            {{ form_widget(form.quantity, { 'attr': {'class': 'form-control'} }) }}
+        </span>
+    </td>
+    <td>
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.discount) }}">
+            {{ form_widget(form.discount, { 'attr': {'class': 'form-control'} }) }}
+        </span>
+    </td>
+    <td>
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.price) }}">
+            {{ form_widget(form.price, { 'attr': {'class': 'form-control'} }) }}
+        </span>
+    </td>
+    <td><a href="#" class="remove-detail"><i class="fas fa-times-circle fa-lg text-danger pt-2"></i></a></td>
+{% endmacro %}
+
+{% import _self as formMacros %}
+
+{% block main %}
+
+    <h1 class="h3 mb-2 text-gray-800">Create Order</h1>
+
+    <div class="row">
+        <div class="col-lg-7 col-md-7">
+            <form method="post">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label>Company{{ form_errors(form.client) }}</label>
+                        {{ form_widget(form.client, { 'attr': {'class': 'form-control chosen-plugin'} }) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <!-- Dropdown Card Example -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <h6 class="m-0 font-weight-bold text-primary">Products</h6>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in"
+                                     aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Dropdown Header:</div>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                            <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                               id="add_product">
+                                <i class="fas fa-plus-circle fa-sm text-white-50"></i> Add Product
+                            </a>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body p-0" id="products_list">
+                            <div class="details">
+                                <table id="details" class="table"
+                                       data-prototype="{{ formMacros.printDetailRow(form.details.vars.prototype)|e('html_attr') }} }}">
+                                    <thead>
+                                    <tr>
+                                        <th width="50%">Title</th>
+                                        <th>Quantity</th>
+                                        <th>Discount</th>
+                                        <th>Price</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {# iterate over each existing tag and render its only field: name #}
+                                    {% for details in form.details %}
+                                        <tr id="order_details_{{ loop.index0 }}">
+                                            {{ formMacros.printDetailRow(details) }}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                {{ form_row(form._token) }}
+                <input type="submit" value="Create" class="btn btn-dark btn-group-sm">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/chosen.js') }}" type="text/javascript"></script>
+    <script>
+
+        $('[data-toggle="tooltip"]').tooltip({
+            trigger : 'hover'
+        });
+
+        // $('#add_product').on('click',function () {
+        //     let client_id = $('#order_client').val();
+        //     let product_id = $('#product_input').val();
+        //     $.ajax({
+        //         method: "POST",
+        //         url: "/ajax/detail/row",
+        //         data: { client_id, product_id },
+        //         success: function (data) {
+        //             alert(data);
+        //         }
+        //     });
+        // });
+
+        let collectionHolder;
+
+        // setup an "add a detail" link
+        let detailButton = $('#add_product');
+
+        // Get the ul that holds the collection of tags
+        collectionHolder = $('table#details');
+
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        collectionHolder.data('index', collectionHolder.find('tbody > tr').length);
+
+        detailButton.on('click', function (e) {
+            // add a new tag form (see next code block)
+            addDetailRow(collectionHolder);
+            e.preventDefault();
+        });
+
+        collectionHolder.on('click', '.remove-detail', function (e) {
+            let row = $(this).parents('tr');
+            if (collectionHolder.find('tbody > tr').length !== 1) {
+                row.remove();
+            }
+            e.preventDefault();
+        });
+
+        function addDetailRow(collectionHolder) {
+            // Get the data-prototype explained earlier
+            let prototype = collectionHolder.data('prototype');
+
+            // get the new index
+            let index = collectionHolder.data('index');
+
+            let newRow = $('<tr id="order_details_' + index + '"></tr>').append(prototype.replace(/__name__/g, index));
+
+            collectionHolder.prepend(newRow);
+
+            $('#order_details_' + index + '_product').chosen().on('change',function (e,params) {
+
+                let client_id = $('#order_client').val();
+                let client_discount = $("#order_client > option[value='" + client_id + "']").attr('data-discount');
+                let price = $(this).find('option[value="'+params.selected+'"]').attr('data-price');
+
+                if (!client_id.length) {
+                    $(this).val(null).trigger('chosen:updated');
+                    alert('Select client first!');
+                    return;
+                }
+
+                let price_input = $('#order_details_' + index + '_price');
+                let discount_input = $('#order_details_' + index + '_discount');
+
+                price_input.val(price);
+                discount_input.val(client_discount);
+
+                if (!price) {
+                    discount_input.val(null);
+                }
+
+            });
+
+            // increase the index with one for the next item
+            collectionHolder.data('index', index + 1);
+
+        }
+
+        $('.chosen-plugin').chosen().on('change',function (e,params) {
+            let client_id = $('#order_client').val();
+            let option = $(this).find('option[value="'+params.selected+'"]');
+            if ('order_client' === e.target.id) {
+                if (!params.selected) {
+                    collectionHolder.find('tbody').html(null);
+                    addDetailRow(collectionHolder);
+                } else {
+                    collectionHolder.find('tbody > tr').each(function(){
+                        if ($('#' + $(this).attr('id') + '_product').val().length) {
+                            $('#' + $(this).attr('id') + '_discount').val(option.attr('data-discount'));
+                        }
+                    });
+                }
+            } else {
+                if (!client_id.length) {
+                    $(this).val(null).trigger('chosen:updated');
+                    alert('Select client first!');
+                    return;
+                }
+                let row_id = $(this).parents('tr').attr('id');
+                let price_input = $('#'+row_id+'_price');
+                let discount_input = $('#'+row_id+'_discount');
+                price_input.val(option.attr('data-price'));
+                discount_input.val($('#order_client option[value="' + client_id + '"]').attr('data-discount'));
+                if (!option.attr('data-price')) {
+                    discount_input.val(null);
+                }
+            }
+        });
+
+    </script>
+{% endblock %}

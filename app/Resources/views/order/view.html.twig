@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 no-print">
+        <h1 class="h3 mb-0 text-gray-800">Order id: {{ order.id }}</h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="window.print(); return false;">
+            <i class="fas fa-print fa-sm text-white-50"></i> Print Order
+        </a>
+    </div>
+
+    <div class="print-only">
+        <img src="{{ asset('img/avliga-logo.png') }}" class="print-logo">
+    </div>
+
+    <div class="row">
+        <!-- Receiver Data -->
+        <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Receiver: {{ order.client.company }}</h6>
+            </div>
+            <div class="card-body">
+                <p>Address: {{ order.client.address }}</p>
+                <p>Unique Identifier: {{ order.client.uniqueIdentifier }}</p>
+                <p>VAT Number: {{ order.client.vatNumber }}</p>
+                <p>Responsible Person: {{ order.client.responsiblePerson }}</p>
+            </div>
+        </div>
+
+        <!-- Provider Data -->
+        <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Provider: ИК АВЛИГА</h6>
+            </div>
+            <div class="card-body">
+                <p>Address: </p>
+                <p>Unique Identifier: </p>
+                <p>VAT Number: </p>
+                <p>Responsible Person: </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Receiver Data -->
+        <div class="card shadow mb-4 col p-0">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Products</h6>
+            </div>
+            <div class="card-body p-0">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Single Price</th>
+                        <th>Value</th>
+                        <th>Discount</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for detail in order.details %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ detail.product.title }}</td>
+                            <td>{{ detail.quantity }}</td>
+                            <td>{{ detail.price }}</td>
+                            <td>{{ (detail.price * detail.quantity)|number_format(2,'.','') }}</td>
+                            <td>{{ detail.discount }}%</td>
+                            <td>{{ ((detail.price * detail.quantity) * (100 - detail.discount)/100)|number_format(2,'.','') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5"></td>
+                            <th class="text-right">Total</th>
+                            <td>{{ order.total }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}
+
