@@ -40,7 +40,7 @@ class ProductController extends Controller
         $form = $this->createForm(ProductType::class,$product);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->productService->add($product);
             return $this->redirectToRoute('products_list');
         }
@@ -70,7 +70,7 @@ class ProductController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->productService->edit($product);
             return $this->redirectToRoute('products_list');
         }

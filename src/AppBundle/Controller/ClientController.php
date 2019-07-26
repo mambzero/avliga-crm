@@ -47,7 +47,7 @@ class ClientController extends Controller
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->clientService->register($client);
             return $this->redirectToRoute('clients_list');
         }
@@ -62,16 +62,22 @@ class ClientController extends Controller
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
-     * @param Client $client
+     * @param int $id
      * @return Response
      */
 
-    public function editClient(Request $request, Client $client)
+    public function editClient(Request $request, $id)
     {
+        $client = $this->clientService->getById($id);
+
+        if (!$client) {
+            return $this->redirectToRoute('clients_list');
+        }
+
         $form = $this->createForm(ClientType::class,$client);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->clientService->update($client);
             return $this->redirectToRoute('clients_list');
         }
