@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -62,6 +63,17 @@ class Product
      */
     private $image;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Entry", mappedBy="product")
+     */
+    private $entries;
+
+    public function __construct()
+    {
+        $this->entries = new ArrayCollection();
+    }
 
     /**
      * Get id
