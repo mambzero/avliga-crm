@@ -143,6 +143,19 @@ class Order
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getDetailsSorted()
+    {
+        $details = $this->details->getIterator();
+        $details->uasort(function (OrderDetail $a, OrderDetail $b) {
+            return $a->getProduct()->getTitle() <=> $b->getProduct()->getTitle();
+        });
+
+        return $details;
+    }
+
+    /**
      * @param OrderDetail $detail
      * @return Order
      */

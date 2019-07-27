@@ -60,7 +60,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for detail in order.details %}
+                    {% for detail in order.detailsSorted %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ detail.product.title }}</td>
