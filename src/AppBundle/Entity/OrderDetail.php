@@ -138,7 +138,7 @@ class OrderDetail
      *
      * @return OrderDetail
      */
-    public function setQuantity(int $quantity)
+    public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
 
@@ -237,7 +237,6 @@ class OrderDetail
     public function setProduct(Product $product)
     {
         $this->product = $product;
-
         return $this;
     }
 
@@ -251,7 +250,6 @@ class OrderDetail
 
     public function getTotal()
     {
-        // ((detail.price * detail.quantity) * (100 - detail.discount)/100)
         return $this->getSum() * (100 - $this->getDiscount())/100;
     }
 }

@@ -236,13 +236,10 @@ class Client
     }
 
     /**
-     * @return float|int
+     * @return float
      */
     public function getDiscount()
     {
-        if (intval($this->discount) == $this->discount) {
-            return (int) $this->discount;
-        }
         return $this->discount;
     }
 

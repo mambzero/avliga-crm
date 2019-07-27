@@ -47,7 +47,7 @@ class Order
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderDetail", mappedBy="order", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderDetail", mappedBy="order", cascade={"persist"}, orphanRemoval=true)
      */
     private $details;
 
@@ -165,6 +165,14 @@ class Order
         $this->details[] = $detail;
 
         return $this;
+    }
+
+    /**
+     * @param OrderDetail $detail
+     */
+    public function removeDetail(OrderDetail $detail)
+    {
+        $this->details->remove($detail);
     }
 
     /**
