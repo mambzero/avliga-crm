@@ -30,4 +30,10 @@ interface EntryServiceInterface
      * @return bool
      */
     public function remove(Entry $entry): bool;
+
+    /**
+     * @param int $id
+     * @return Entry|Object|null
+     */
+    public function getById(int $id): ?Entry;
 }

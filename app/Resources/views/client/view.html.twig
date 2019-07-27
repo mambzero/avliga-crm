@@ -11,12 +11,25 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">{{ client.company }}</h6>
             </div>
-            <div class="card-body">
-                <p>Address: {{ client.address }}</p>
-                <p>Unique Identifier: {{ client.uniqueIdentifier }}</p>
-                <p>VAT Number: {{ client.vatNumber }}</p>
-                <p>Responsible Person: {{ client.responsiblePerson }}</p>
-                <p>Discount: {{ client.discount }}</p>
+            <div class="card-body p-0">
+                <table class="table">
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ client.address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Unique Identifier</th>
+                        <td>{{ client.uniqueIdentifier }}</td>
+                    </tr>
+                    <tr>
+                        <th>VAT Number</th>
+                        <td>{{ client.vatNumber }}</td>
+                    </tr>
+                    <tr>
+                        <th>Discount</th>
+                        <td>{{ client.discount }}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

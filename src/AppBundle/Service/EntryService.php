@@ -57,4 +57,13 @@ class EntryService implements EntryServiceInterface
     {
         return $this->entryRepository->delete($entry);
     }
+
+    /**
+     * @param int $id
+     * @return Entry|Object|null
+     */
+    public function getById(int $id): ?Entry
+    {
+        return $this->entryRepository->findOne($id);
+    }
 }

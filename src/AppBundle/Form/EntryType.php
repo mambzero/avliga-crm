@@ -30,6 +30,7 @@ class EntryType extends AbstractType
 
         $builder
             ->add('product', EntityType::class,[
+                'class' => Product::class,
                 'choices' => $products,
                 'choice_label' => 'title',
                 'choice_value' => 'id',
@@ -39,7 +40,7 @@ class EntryType extends AbstractType
                     new Choice(['choices' => $products])
                 ],
                 'label' => false,
-                'required' => false,
+                'required' => false
             ])
             ->add('quantity', IntegerType::class, [
                 'constraints' => [

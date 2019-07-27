@@ -61,7 +61,7 @@ class EntryRepository extends EntityRepository implements EntryRepositoryInterfa
      */
     public function listAll(): array
     {
-        return $this->findAll();
+        return $this->createQueryBuilder('e')->orderBy('e.dateAdded', 'DESC')->getQuery()->getResult();
     }
 
     /**
@@ -77,5 +77,14 @@ class EntryRepository extends EntityRepository implements EntryRepositoryInterfa
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param int $id
+     * @return Entry|Object|null
+     */
+    public function findOne(int $id): ?Entry
+    {
+        return $this->findOneBy(['id' => $id]);
     }
 }

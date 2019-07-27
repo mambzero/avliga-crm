@@ -30,4 +30,10 @@ interface EntryRepositoryInterface
      * @return bool
      */
     public function delete(Entry $entry): bool;
+
+    /**
+     * @param int $id
+     * @return Entry|Object|null
+     */
+    public function findOne(int $id): ?Entry;
 }

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    <div class="row">
+        <!-- Client Data -->
+        <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Entry ID: {{ entry.id }}</h6>
+            </div>
+            <div class="card-body p-0">
+                <table class="table">
+                    <tr>
+                        <th>Product</th>
+                        <td>{{ entry.product.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Quantity</th>
+                        <td>{{ entry.quantity }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date Added</th>
+                        <td>{{ entry.dateAdded|date('Y-m-d H:i:s') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    <h1 class="h3 mb-2 text-gray-800">Add Entry</h1>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+
+            <form method="post">
+                <div class="form-group">
+                    <label>Product{{ form_errors(form.product) }}</label>
+                    {{ form_widget(form.product, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+
+                <div class="form-group">
+                    <label>Quantity{{ form_errors(form.quantity) }}</label>
+                    <input type="number" name="entry[quantity]" class="form-control" id="entryQuantity"
+                           placeholder="Quantity ..." step="1" value="{{ form.vars.value.quantity }}">
+                </div>
+
+                {{ form_row(form._token) }}
+                <input type="submit" value="Add" class="btn btn-dark btn-group-sm">
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}
