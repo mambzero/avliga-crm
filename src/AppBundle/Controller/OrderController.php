@@ -79,8 +79,6 @@ class OrderController extends Controller
         $form = $this->createForm(OrderType::class,$order);
         $form->handleRequest($request);
 
-        dump($order); exit();
-
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->orderService->save($order)) {
                 return $this->redirectToRoute('orders_list');

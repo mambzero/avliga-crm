@@ -62,7 +62,8 @@ class OrderDetailType extends AbstractType
                     new GreaterThanOrEqual(0)
                 ],
                 'label' => false,
-                'required' => false
+                'required' => false,
+                'scale' => 2
             ])
             ->add('price', NumberType::class, [
                 'constraints' => [
@@ -70,7 +71,8 @@ class OrderDetailType extends AbstractType
                     new GreaterThanOrEqual(0)
                 ],
                 'label' => false,
-                'required' => false
+                'required' => false,
+                'scale' => 2
             ]);
     }
 

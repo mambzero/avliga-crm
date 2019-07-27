@@ -53,7 +53,15 @@ class OrderRepository extends EntityRepository implements OrderRepositoryInterfa
      */
     public function update(Order $order): bool
     {
-        return false;
+
+        try {
+            $this->_em->merge($order);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            $this->setError($e->getMessage());
+            return false;
+        }
+        return true;
     }
 
     /**

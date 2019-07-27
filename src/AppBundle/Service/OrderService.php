@@ -26,10 +26,16 @@ class OrderService implements OrderServiceInterface
 
         $details = $order->getDetails();
         foreach ($details as $detail) {
-            $detail->setOrder($order);
+            if (is_null($detail->getOrder())) {
+                $detail->setOrder($order);
+            }
         }
 
-        return $this->orderRepository->create($order);
+        if (is_null($order->getId())) {
+            return $this->orderRepository->create($order);
+        } else {
+            return $this->orderRepository->update($order);
+        }
     }
 
     /**
