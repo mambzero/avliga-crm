@@ -54,7 +54,7 @@
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Single Price</th>
-                        <th>Value</th>
+                        <th>Sum</th>
                         <th>Discount</th>
                         <th>Total</th>
                     </tr>
@@ -66,9 +66,9 @@
                             <td>{{ detail.product.title }}</td>
                             <td>{{ detail.quantity }}</td>
                             <td>{{ detail.price }}</td>
-                            <td>{{ (detail.price * detail.quantity)|number_format(2,'.','') }}</td>
+                            <td>{{ detail.sum|number_format(2,'.','') }}</td>
                             <td>{{ detail.discount }}%</td>
-                            <td>{{ ((detail.price * detail.quantity) * (100 - detail.discount)/100)|number_format(2,'.','') }}</td>
+                            <td>{{ detail.total|number_format(2,'.','') }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

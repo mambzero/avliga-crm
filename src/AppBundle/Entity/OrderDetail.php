@@ -240,5 +240,19 @@ class OrderDetail
 
         return $this;
     }
+
+    /**
+     * @return float
+     */
+    public function getSum()
+    {
+        return $this->getPrice() * $this->getQuantity();
+    }
+
+    public function getTotal()
+    {
+        // ((detail.price * detail.quantity) * (100 - detail.discount)/100)
+        return $this->getSum() * (100 - $this->getDiscount())/100;
+    }
 }
 
