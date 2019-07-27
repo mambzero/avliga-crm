@@ -57,33 +57,25 @@ class OrderRepository extends EntityRepository implements OrderRepositoryInterfa
     }
 
     /**
-     * @return array|string
+     * @return array
      */
     public function listAll(): array
     {
-
-        try {
-            $db = $this->_em->getConnection();
-            $query = $db->executeQuery('
-            SELECT
-                o.id,
-                c.company as client,
-                sum(d.quantity) as quantity,
-                sum(d.price * d.quantity) as price,
-                ROUND(sum(((d.price * d.quantity)*d.discount)/100),2) as discount,
-                ROUND(sum(d.price * d.quantity) - sum(((d.price * d.quantity)*d.discount)/100),2) as total,
-                o.date_added as date
-            FROM orders AS o
-            INNER JOIN clients AS c
-            ON o.client_id = c.id
-            LEFT JOIN order_details AS d
-            ON o.id = d.order_id
-            GROUP BY d.order_id');
-        } catch (Exception $e) {
-            return ['error' => $e->getMessage()];
-        }
-
-        return $query->fetchAll();
+        return $this->createQueryBuilder('o')
+            ->select([
+                'o.id',
+                'c.company as client',
+                'SUM(d.quantity) as quantity',
+                'sum(d.price * d.quantity) as price',
+                'ROUND(sum(((d.price * d.quantity)*d.discount)/100),2) as discount',
+                'ROUND(sum(d.price * d.quantity) - sum(((d.price * d.quantity)*d.discount)/100),2) as total',
+                'DATE_FORMAT(o.dateAdded, \'%Y-%m-%d %H:%i\') as date'
+            ])
+            ->join('o.client','c')
+            ->leftJoin('o.details','d')
+            ->groupBy('d.orderId')
+            ->getQuery()
+            ->getResult();
     }
 
     /**
