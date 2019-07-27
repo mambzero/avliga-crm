@@ -7,26 +7,22 @@
 
 {% macro printDetailRow(form) %}
     <td>
-        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right"
-              title="{{ form_errors(form.product) }}">
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.product) }}">
             {{ form_widget(form.product, { 'attr': {'class': 'form-control chosen-plugin'} }) }}
         </span>
     </td>
     <td>
-        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right"
-              title="{{ form_errors(form.quantity) }}">
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.quantity) }}">
             {{ form_widget(form.quantity, { 'attr': {'class': 'form-control'} }) }}
         </span>
     </td>
     <td>
-        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right"
-              title="{{ form_errors(form.discount) }}">
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.discount) }}">
             {{ form_widget(form.discount, { 'attr': {'class': 'form-control'} }) }}
         </span>
     </td>
     <td>
-        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right"
-              title="{{ form_errors(form.price) }}">
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.price) }}">
             {{ form_widget(form.price, { 'attr': {'class': 'form-control'} }) }}
         </span>
     </td>
@@ -78,7 +74,7 @@
                         <div class="card-body p-0" id="products_list">
                             <div class="details">
                                 <table id="details" class="table"
-                                       data-prototype="{{ formMacros.printDetailRow(form.details.vars.prototype)|e('html_attr') }} }}"
+                                       data-prototype="{{ formMacros.printDetailRow(form.details.vars.prototype)|spaceless|e('html_attr') }}"
                                        data-index="{{ max(form.details|keys) }}">
                                     <thead>
                                     <tr>
@@ -90,7 +86,7 @@
                                     </thead>
                                     <tbody>
                                     {# iterate over each existing tag and render its only field: name #}
-                                    {% for key, details in form.details %}
+                                    {% for key, details in form.details|krsort %}
                                         <tr id="order_details_{{ key }}">
                                             {{ formMacros.printDetailRow(details) }}
                                         </tr>
