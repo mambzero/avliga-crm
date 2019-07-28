@@ -70,9 +70,19 @@ class Product
      */
     private $entries;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderDetail", mappedBy="product")
+     */
+    private $details;
+
+
+
     public function __construct()
     {
         $this->entries = new ArrayCollection();
+        $this->details = new ArrayCollection();
     }
 
     /**

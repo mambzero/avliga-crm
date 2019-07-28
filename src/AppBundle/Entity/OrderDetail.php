@@ -46,7 +46,7 @@ class OrderDetail
     /**
      * @var Product
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="details")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
     private $product;
