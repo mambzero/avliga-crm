@@ -27,7 +27,7 @@ class EntryController extends Controller
      */
     public function listEntries()
     {
-        return $this->render('entry/list.html.twig', array(
+        return $this->render('warehouse/entry/list.html.twig', array(
             'entries' => $this->entryService->listAll()
         ));
     }
@@ -52,7 +52,7 @@ class EntryController extends Controller
             return new Response('error');
         }
 
-        return $this->render('entry/add.html.twig', [
+        return $this->render('warehouse/entry/add.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -83,7 +83,7 @@ class EntryController extends Controller
             return new Response('error');
         }
 
-        return $this->render('entry/edit.html.twig', array(
+        return $this->render('warehouse/entry/edit.html.twig', array(
             'entry' => $entry,
             'form' => $form->createView()
         ));
@@ -104,7 +104,7 @@ class EntryController extends Controller
             return $this->redirectToRoute('entries_list');
         }
 
-        return $this->render('entry/view.html.twig', array(
+        return $this->render('warehouse/entry/view.html.twig', array(
             'entry' => $entry
         ));
     }
