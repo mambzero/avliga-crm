@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    <h1 class="h3 mb-2 text-gray-800">Edit User</h1>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <form method="post">
+                <div class="form-group">
+                    <label>Email{{ form_errors(form.email) }}</label>
+                    {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+
+                <div class="form-group">
+                    <label>Password{{ form_errors(form.password.first) }}</label>
+                    {{ form_widget(form.password.first, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm{{ form_errors(form.password.first) }}</label>
+                    {{ form_widget(form.password.second, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+
+                <div class="form-group">
+                    <label>Roles{{ form_errors(form.roles) }}</label>
+                    {{ form_widget(form.roles, { 'attr': {'class': 'form-control chosen-plugin'} }) }}
+                </div>
+
+                {{ form_row(form._token) }}
+                <input type="submit" value="Edit" class="btn btn-dark btn-group-sm">
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

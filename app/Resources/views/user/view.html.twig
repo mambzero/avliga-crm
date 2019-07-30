@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    <div class="row">
+        <!-- Client Data -->
+        <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">User ID: {{ user.id }}</h6>
+            </div>
+            <div class="card-body p-0">
+                <table class="table">
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Roles</th>
+                        <td>
+                            <ul>
+                                {% for role in user.roles %}
+                                    <li>{{ role }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+
+

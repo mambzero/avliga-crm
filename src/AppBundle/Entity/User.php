@@ -137,6 +137,14 @@ class User implements UserInterface
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getRolesCollection()
+    {
+        return $this->roles;
+    }
+
+    /**
      * @param Role $role
      * @return User
      */
@@ -180,5 +188,14 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return User
+     */
+    public function setRoles($roles): User
+    {
+        $this->roles = $roles;
+        return $this;
     }
 }
