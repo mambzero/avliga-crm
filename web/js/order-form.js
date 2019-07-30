@@ -66,6 +66,14 @@ function addDetailRow(collectionHolder) {
 
 }
 
+$('.chosen-plugin').on('chosen:ready', function(event, params) {
+    let chosen_id = event.target.id;
+    let $chosen = $('#'+chosen_id);
+    if ($chosen.hasClass('border-danger')) {
+        $('#'+chosen_id+'_chosen').find('.chosen-single').addClass('border-danger');
+    }
+});
+
 $('.chosen-plugin').chosen().on('change',function (e,params) {
     let client_id = $('#order_client').val();
     let option = $(this).find('option[value="'+params.selected+'"]');

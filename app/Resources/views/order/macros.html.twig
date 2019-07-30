@@ -1,7 +1,13 @@
 {% macro printDetailRow(form) %}
     <td>
-        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.product) }}">
-            {{ form_widget(form.product, { 'attr': {'class': 'form-control chosen-plugin'} }) }}
+        {% set product_error = form_errors(form.product) %}
+        {% if product_error %}
+            {% set product_options = { 'attr': {'class': 'form-control chosen-plugin border-danger'} } %}
+        {% else %}
+            {% set product_options = { 'attr': {'class': 'form-control chosen-plugin'} } %}
+        {% endif %}
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ product_error }}">
+            {{ form_widget(form.product, product_options) }}
         </span>
     </td>
     <td>
