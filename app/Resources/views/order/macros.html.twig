@@ -1,0 +1,41 @@
+{% macro printDetailRow(form) %}
+    <td>
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.product) }}">
+            {{ form_widget(form.product, { 'attr': {'class': 'form-control chosen-plugin'} }) }}
+        </span>
+    </td>
+    <td>
+        {% set quantity_error = form_errors(form.quantity) %}
+        {% if quantity_error %}
+            {% set quantity_options = { 'attr': {'class': 'form-control border-danger'} } %}
+        {% else %}
+            {% set quantity_options = { 'attr': {'class': 'form-control'} } %}
+        {% endif %}
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ quantity_error }}">
+            {{ form_widget(form.quantity, quantity_options) }}
+        </span>
+    </td>
+    <td>
+        {% set discount_error = form_errors(form.discount) %}
+        {% if discount_error %}
+            {% set discount_options = { 'attr': {'class': 'form-control border-danger'} } %}
+        {% else %}
+            {% set discount_options = { 'attr': {'class': 'form-control'} } %}
+        {% endif %}
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ discount_error }}">
+            {{ form_widget(form.discount, discount_options) }}
+        </span>
+    </td>
+    <td>
+        {% set price_error = form_errors(form.price) %}
+        {% if price_error %}
+            {% set price_options = { 'attr': {'class': 'form-control border-danger'} } %}
+        {% else %}
+            {% set price_options = { 'attr': {'class': 'form-control'} } %}
+        {% endif %}
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ price_error }}">
+            {{ form_widget(form.price, price_options) }}
+        </span>
+    </td>
+    <td><a href="#" class="remove-detail"><i class="fas fa-times-circle fa-lg text-danger pt-2"></i></a></td>
+{% endmacro %}

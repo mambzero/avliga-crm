@@ -28,7 +28,10 @@
                 </div>
 
                 {{ form_row(form._token) }}
-                <input type="submit" value="Add" class="btn btn-dark btn-group-sm">
+                <div class="form-group d-flex justify-content-between">
+                    <input type="submit" value="Add User" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <a href="{{ path('users_list') }}" class="d-sm-inline-block btn btn-sm btn-dark shadow-sm">Back <i class="fas fa-arrow-alt-circle-right fa-sm text-white-50"></i></a>
+                </div>
             </form>
 
         </div>

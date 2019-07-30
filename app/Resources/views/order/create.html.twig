@@ -1,42 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% import 'order/macros.html.twig' as macros %}
+
 {% block stylesheets %}
     <link href="{{ asset('css/component-chosen.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/tooltip.css') }}" rel="stylesheet">
 {% endblock %}
-
-{% macro printDetailRow(form) %}
-    <td>
-        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.product) }}">
-            {{ form_widget(form.product, { 'attr': {'class': 'form-control chosen-plugin'} }) }}
-        </span>
-    </td>
-    <td>
-        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.quantity) }}">
-            {{ form_widget(form.quantity, { 'attr': {'class': 'form-control'} }) }}
-        </span>
-    </td>
-    <td>
-        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.discount) }}">
-            {{ form_widget(form.discount, { 'attr': {'class': 'form-control'} }) }}
-        </span>
-    </td>
-    <td>
-        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ form_errors(form.price) }}">
-            {{ form_widget(form.price, { 'attr': {'class': 'form-control'} }) }}
-        </span>
-    </td>
-    <td><a href="#" class="remove-detail"><i class="fas fa-times-circle fa-lg text-danger pt-2"></i></a></td>
-{% endmacro %}
-
-{% import _self as formMacros %}
 
 {% block main %}
 
     <h1 class="h3 mb-2 text-gray-800">Create Order</h1>
 
     <div class="row">
-        <div class="col-lg-7 col-md-7">
+        <div class="col-lg-8 col-md-8">
             <form method="post">
                 <div class="form-row">
                     <div class="form-group col">
@@ -50,22 +26,9 @@
                     <!-- Dropdown Card Example -->
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h6 class="m-0 font-weight-bold text-primary">Products</h6>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                            <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between p-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Products</h6>
+                            <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm abs-right-1"
                                id="add_product">
                                 <i class="fas fa-plus-circle fa-sm text-white-50"></i> Add Product
                             </a>
@@ -74,7 +37,7 @@
                         <div class="card-body p-0" id="products_list">
                             <div class="details">
                                 <table id="details" class="table"
-                                       data-prototype="{{ formMacros.printDetailRow(form.details.vars.prototype)|spaceless|e('html_attr') }}"
+                                       data-prototype="{{ macros.printDetailRow(form.details.vars.prototype)|spaceless|e('html_attr') }}"
                                        data-index="{{ max(form.details|keys) }}">
                                     <thead>
                                     <tr>
@@ -88,7 +51,7 @@
                                     {# iterate over each existing tag and render its only field: name #}
                                     {% for key, details in form.details|krsort %}
                                         <tr id="order_details_{{ key }}">
-                                            {{ formMacros.printDetailRow(details) }}
+                                            {{ macros.printDetailRow(details) }}
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -100,7 +63,10 @@
                 </div>
 
                 {{ form_row(form._token) }}
-                <input type="submit" value="Create" class="btn btn-dark btn-group-sm">
+                <div class="form-group d-flex justify-content-between">
+                    <input type="submit" value="Create Order" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <a href="{{ path('orders_list') }}" class="d-sm-inline-block btn btn-sm btn-dark shadow-sm">Back <i class="fas fa-arrow-alt-circle-right fa-sm text-white-50"></i></a>
+                </div>
             </form>
         </div>
     </div>

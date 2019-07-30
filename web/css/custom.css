@@ -16,6 +16,10 @@
         margin-left: -5mm;
         width: 70mm;
     }
+    .dataTables_wrapper  div.row:first-child,
+    .dataTables_wrapper  div.row:last-child {
+        display: none;
+    }
 }
 
 @media screen {
@@ -39,4 +43,14 @@ label > ul {
     padding: 5px;
     list-style: none;
     font-size: 15px;
+}
+
+.abs-right-1 {
+    position: absolute;
+    right: 1em;
+}
+
+.abs-right-2 {
+    position: absolute;
+    right: 1.5em;
 }

@@ -6,16 +6,11 @@
 {% endblock %}
 
 {% block main %}
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Orders</h1>
-        <a href="{{ path('orders_create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-arrow-alt-circle-left fa-sm text-white-50"></i> Create Order</a>
-    </div>
-
-    <!-- DataTales Example -->
+    <!-- Orders DataTable -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <div class="card-header d-flex justify-content-between py-3">
+            <h6 class="h4 mb-0 text-gray-800">Orders</h6>
+            <a href="{{ path('orders_create') }}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm abs-right-2 no-print"><i class="fas fa-arrow-alt-circle-left fa-sm text-white-50"></i> Create Order</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -29,7 +24,7 @@
                         <th>Discount</th>
                         <th>Total</th>
                         <th>Date</th>
-                        <th>Actions</th>
+                        <th class="no-print">Actions</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -40,7 +35,7 @@
                         <th>Discount</th>
                         <th>Total</th>
                         <th>Date</th>
-                        <th>Actions</th>
+                        <th class="no-print">Actions</th>
                     </tfoot>
                     <tbody>
                     {% for order in orders %}
@@ -52,7 +47,7 @@
                             <td>-{{ order.discount }}</td>
                             <td>{{ order.total }}</td>
                             <td>{{ order.date }}</td>
-                            <td>
+                            <td class="no-print">
                                 <a href="{{ path('orders_view', {id: order.id}) }}" class="btn btn-sm btn-info">View</a>
                                 <a href="{{ path('orders_edit', {id: order.id}) }}" class="btn btn-sm btn-success">Edit</a>
                                 <a href="{{ path('orders_delete', {id: order.id}) }}" class="btn btn-sm btn-danger">Delete</a>

@@ -5,8 +5,9 @@
     <div class="row">
         <!-- Client Data -->
         <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
-            <div class="card-header py-3">
+            <div class="card-header d-flex justify-content-between py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Entry ID: {{ entry.id }}</h6>
+                <a href="{{ path('entries_list') }}" class="abs-right-1"><i class="fas fa-times-circle fa-lg text-dark p-0"></i></a>
             </div>
             <div class="card-body p-0">
                 <table class="table">
