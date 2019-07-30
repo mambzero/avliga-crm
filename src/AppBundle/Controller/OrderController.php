@@ -76,6 +76,11 @@ class OrderController extends Controller
     public function editOrder(Request $request, $id)
     {
         $order = $this->orderService->getById($id);
+
+        if (!$order) {
+            return $this->redirectToRoute('orders_list');
+        }
+
         $form = $this->createForm(OrderType::class,$order);
         $form->handleRequest($request);
 
