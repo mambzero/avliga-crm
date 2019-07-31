@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        html {
+            height: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <body class="bg-gradient-danger h-100">
+
+    <div class="container h-75 d-flex justify-content-center align-items-center">
+
+        <div class="card shadow col-xl-10 col-lg-12 col-md-9 p-0">
+            <div class="card-header d-flex justify-content-between py-3">
+                <h5 class="h5 m-0 font-weight-bold text-dark">Error 403</h5>
+                <a href="#" class="abs-right-1" onclick="window.history.back(); return false;">
+                    <i class="fas fa-arrow-alt-circle-right fa-lg text-dark p-0"></i>
+                </a>
+            </div>
+            <div class="card-body">
+                <h1 class="h1 text-danger font-weight-bolder">
+                    <i class="fas fa-exclamation-circle fa-lg text-danger mt-2"></i> No Access!
+                </h1>
+                <hr class="sidebar-divider">
+                <p class="text-dark">The server responded with error 403.</p>
+                <p class="text-dark">You have no access to this page.</p>
+            </div>
+        </div>
+
+    </div>
+
+    </body>
+
+{% endblock %}
