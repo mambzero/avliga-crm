@@ -25,7 +25,7 @@ class OrderController extends Controller
 
     /**
      * @Route("/orders", name="orders_list")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @return Response
      */
@@ -41,7 +41,7 @@ class OrderController extends Controller
 
     /**
      * @Route("/orders/create", name="orders_create")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param Request $request
      * @return Response
@@ -67,7 +67,7 @@ class OrderController extends Controller
 
     /**
      * @Route("/orders/edit/{id}", name="orders_edit")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param Request $request
      * @param $id
@@ -98,7 +98,7 @@ class OrderController extends Controller
 
     /**
      * @Route("/orders/delete/{id}", name="orders_delete")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param $id
      * @return RedirectResponse
@@ -117,7 +117,7 @@ class OrderController extends Controller
 
     /**
      * @Route("/orders/view/{id}", name="orders_view")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param $id
      * @return Response

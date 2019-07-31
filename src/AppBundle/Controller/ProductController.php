@@ -29,7 +29,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/products/add", name="products_add")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param Request $request
      * @return Response
@@ -52,7 +52,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/products/edit/{id}", name="products_edit")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param Request $request
      * @param $id
@@ -83,7 +83,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/products", name="products_list")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @return Response
      */
@@ -99,7 +99,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/products/view/{id}", name="products_view")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param int $id
      * @return Response

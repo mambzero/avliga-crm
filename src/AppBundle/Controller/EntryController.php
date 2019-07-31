@@ -23,7 +23,7 @@ class EntryController extends Controller
 
     /**
      * @Route("/entries", name="entries_list")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      */
     public function listEntries()
     {
@@ -34,7 +34,7 @@ class EntryController extends Controller
 
     /**
      * @Route("/entries/add", name="entries_add")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param Request $request
      * @return Response
@@ -59,7 +59,7 @@ class EntryController extends Controller
 
     /**
      * @Route("/entries/edit/{id}", name="entries_edit")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param Request $request
      * @param int $id
@@ -91,7 +91,7 @@ class EntryController extends Controller
 
     /**
      * @Route("/entries/view/{id}", name="entries_view")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param $id
      * @return Response
@@ -111,7 +111,7 @@ class EntryController extends Controller
 
     /**
      * @Route("/entries/delete/{id}", name="entries_delete")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param $id
      * @return Response

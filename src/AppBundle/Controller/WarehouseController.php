@@ -20,7 +20,7 @@ class WarehouseController extends Controller
 
     /**
      * @Route("/stocks", name="stocks")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @return Response
      */

@@ -37,7 +37,7 @@ class UserController extends Controller
 
     /**
      * @Route("/users/add", name="users_add")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_ADMIN')", message="No Access!")
      *
      * @param Request $request
      * @return Response
@@ -60,7 +60,7 @@ class UserController extends Controller
 
     /**
      * @Route("/users/edit/{id}", name="users_edit")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_ADMIN')", message="No Access!")
      *
      * @param Request $request
      * @param int $id
@@ -84,7 +84,7 @@ class UserController extends Controller
 
     /**
      * @Route("/users/view/{id}", name="users_view")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_ADMIN')", message="No Access!")
      *
      * @param $id
      * @return Response
@@ -104,7 +104,7 @@ class UserController extends Controller
 
     /**
      * @Route("/users/delete/{id}", name="users_delete")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_ADMIN')", message="No Access!")
      *
      * @param $id
      * @return RedirectResponse

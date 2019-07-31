@@ -23,7 +23,7 @@ class ClientController extends Controller
 
     /**
      * @Route("/clients", name="clients_list")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @return Response
      */
@@ -36,7 +36,7 @@ class ClientController extends Controller
 
     /**
      * @Route("/clients/add", name="clients_add", methods={"GET","POST"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param Request $request
      * @return Response
@@ -59,7 +59,7 @@ class ClientController extends Controller
 
     /**
      * @Route("/clients/edit/{id}", name="clients_edit", methods={"GET","POST"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param Request $request
      * @param int $id
@@ -91,7 +91,7 @@ class ClientController extends Controller
 
     /**
      * @Route("/clients/view/{id}", name="clients_view")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      *
      * @param Client $client
      * @return Response
