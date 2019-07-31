@@ -31,4 +31,9 @@ interface ClientRepositoryInterface
      */
     public function findOne(int $id): ?Client;
 
+    /**
+     * @return Client[]
+     */
+    public function listActive(): array;
+
 }

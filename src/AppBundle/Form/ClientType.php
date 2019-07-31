@@ -25,7 +25,9 @@ class ClientType extends AbstractType
             ->add('responsiblePerson', TextType::class, $this->getOptions('responsiblePerson'))
             ->add('uniqueIdentifier', TextType::class, $this->getOptions('uniqueIdentifier'))
             ->add('vat', CheckboxType::class,$this->getOptions('vat'))
-            ->add('discount', NumberType::class, $this->getOptions('discount'));
+            ->add('discount', NumberType::class, $this->getOptions('discount'))
+
+            ->add('active', CheckboxType::class,$this->getOptions('active'));
 
     }
 
@@ -71,6 +73,7 @@ class ClientType extends AbstractType
                 ];
                 break;
             case "vat":
+            case "active":
                 $options['required'] = false;
                 break;
         }

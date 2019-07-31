@@ -74,4 +74,12 @@ class ClientRepository extends EntityRepository implements ClientRepositoryInter
     {
         return $this->find(['id' => $id]);
     }
+
+    /**
+     * @return Client[]
+     */
+    public function listActive(): array
+    {
+        return $this->findBy(['active' => true]);
+    }
 }

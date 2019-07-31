@@ -24,7 +24,7 @@ class OrderType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $clients = $this->clientRepository->listAll();
+        $clients = $this->clientRepository->listActive();
 
         $builder->add('client', EntityType::class, [
             'class' => Client::class,

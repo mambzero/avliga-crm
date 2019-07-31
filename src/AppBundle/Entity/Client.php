@@ -74,6 +74,13 @@ class Client
     private $vatNumber;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="active", type="boolean", options={"default" : 0})
+     */
+    private $active;
+
+    /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Order", mappedBy="client")
@@ -265,6 +272,22 @@ class Client
     public function setOrders($orders)
     {
         $this->orders = $orders;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
     }
 
 }

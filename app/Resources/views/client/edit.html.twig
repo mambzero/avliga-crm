@@ -36,10 +36,14 @@
                            placeholder="Discount percentage..." step="any" value="{{ client.discount }}">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group d-flex justify-content-between">
                     <div class="custom-control custom-checkbox small">
-                        <input type="checkbox" name="client[vat]" value="1" class="custom-control-input" id="customCheck"{% if client.vat %} checked {% endif %}>
-                        <label class="custom-control-label" for="customCheck">VAT</label>
+                        <input type="checkbox" name="client[vat]" value="1" class="custom-control-input" id="customCheckVat"{% if client.vat %} checked {% endif %}>
+                        <label class="custom-control-label" for="customCheckVat">VAT</label>
+                    </div>
+                    <div class="custom-control custom-checkbox small">
+                        <input type="checkbox" name="client[active]" value="1" class="custom-control-input" id="customCheckActive"{% if client.active %} checked {% endif %}>
+                        <label class="custom-control-label" for="customCheckActive">Active</label>
                     </div>
                 </div>
                 {{ form_row(form._token) }}
