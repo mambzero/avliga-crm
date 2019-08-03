@@ -13,6 +13,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('price', [$this, 'formatPrice']),
             new TwigFilter('ksort', [$this, 'sortByKey']),
             new TwigFilter('krsort', [$this, 'sortByKeyReverse']),
+            new TwigFilter('count', [$this, 'countCollection']),
         ];
     }
 
@@ -44,5 +45,14 @@ class AppExtension extends AbstractExtension
         }
 
         return $a;
+    }
+
+    public function countCollection($a)
+    {
+        if (isset($a->children)) {
+            return count($a->children);
+        } else {
+            return count($a);
+        }
     }
 }
