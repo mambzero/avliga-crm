@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    <div class="row">
+        <!-- Role Data -->
+        <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
+            <div class="card-header d-flex justify-content-between py-3">
+                <h6 class="m-0 font-weight-bold text-primary">{{ role.name }}</h6>
+                <a href="{{ path('roles_list') }}" class="abs-right-1">
+                    <i class="fas fa-times-circle fa-lg text-dark p-0"></i>
+                </a>
+            </div>
+            <div class="card-body p-0">
+                {% if role.users|count > 0 %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>User</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in role.users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                    <h5 class="p-4">No users are given {{ role.name }}.</h5>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+
+

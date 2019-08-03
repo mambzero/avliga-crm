@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    <h1 class="h3 mb-2 text-gray-800">Edit Role</h1>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <form method="post">
+                <div class="form-group">
+                    <label>Role{{ form_errors(form.name) }}</label>
+                    <input type="text" name="role[name]" class="form-control" id="companyName"
+                           placeholder="Name..." value="{{ form.vars.value.name }}">
+                </div>
+                {{ form_row(form._token) }}
+                <div class="form-group d-flex justify-content-between">
+                    <input type="submit" value="Edit Role" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <a href="{{ path('roles_list') }}" class="d-sm-inline-block btn btn-sm btn-dark shadow-sm">Back <i class="fas fa-arrow-alt-circle-right fa-sm text-white-50"></i></a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

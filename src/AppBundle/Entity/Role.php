@@ -75,5 +75,23 @@ class Role
     {
         return $this->name;
     }
+
+    public function isAdminRole()
+    {
+        return 'ROLE_ADMIN' === $this->getName();
+    }
+
+    public function isUserRole()
+    {
+        return 'ROLE_USER' === $this->getName();
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
 }
 

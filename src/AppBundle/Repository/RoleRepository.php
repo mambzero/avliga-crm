@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping;
+use Exception;
 
 /**
  * RoleRepository
@@ -40,5 +41,77 @@ class RoleRepository extends EntityRepository implements RoleRepositoryInterface
     public function findByName(string $name): ?Role
     {
         return $this->findOneBy(['name' => $name]);
+    }
+
+    /**
+     * @param Role $role
+     * @return bool
+     */
+    public function insert(Role $role): bool
+    {
+        try {
+            $this->_em->persist($role);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param Role $role
+     * @return bool
+     */
+    public function update(Role $role): bool
+    {
+        try {
+            $this->_em->merge($role);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param Role $role
+     * @return bool
+     */
+    public function delete(Role $role): bool
+    {
+        try {
+            $this->_em->remove($role);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param int $id
+     * @return Role|Object|null
+     */
+    public function findOne(int $id): ?Role
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
+
+    /**
+     * @param int $id
+     * @return string|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findNameById(int $id): ?string
+    {
+        $result = $this->createQueryBuilder('r')
+            ->select('r.name as role')
+            ->where('r.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result !== null ? $result['role'] : null;
+
     }
 }
