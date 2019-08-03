@@ -198,4 +198,9 @@ class User implements UserInterface
         $this->roles = $roles;
         return $this;
     }
+
+    public function updateCredentials(Profile $profile) {
+        $this->setEmail($profile->getEmail());
+        $this->setPassword($profile->getPassword());
+    }
 }

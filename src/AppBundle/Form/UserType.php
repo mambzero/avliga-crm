@@ -123,6 +123,11 @@ class UserType extends AbstractType
         $user = $event->getData();
         $form = $event->getForm();
         $email = $user->getEmail();
+
+        if ($email === null) {
+            return;
+        }
+
         $emailFromDB = $this->userRepository->findByEmail($email);
 
         if (

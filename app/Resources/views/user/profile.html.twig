@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    <h1 class="h3 mb-2 text-gray-800">Profile</h1>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <form method="post">
+                <div class="form-group">
+                    <label>Email{{ form_errors(form.email) }}</label>
+                    {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+
+                <div class="form-group">
+                    <label>Password{{ form_errors(form.password.first) }}</label>
+                    {{ form_widget(form.password.first, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm{{ form_errors(form.password.first) }}</label>
+                    {{ form_widget(form.password.second, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+
+                {{ form_row(form._token) }}
+                <div class="form-group">
+                    <input type="submit" value="Save Profile" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                </div>
+            </form>
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        setTimeout(function() {
+            $(".alert").fadeOut(500, function() {
+                $(this).alert('close');
+            });
+        }, 2500);
+    </script>
+{% endblock %}

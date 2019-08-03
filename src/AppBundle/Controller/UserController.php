@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Profile;
 use AppBundle\Entity\User;
+use AppBundle\Form\ProfileType;
 use AppBundle\Form\UserType;
 use AppBundle\Service\UserServiceInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -72,6 +74,10 @@ class UserController extends Controller
         $form = $this->createForm(UserType::class,$user);
         $form->handleRequest($request);
 
+        if (!$user) {
+            return $this->redirectToRoute('users_list');
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->userService->edit($user);
             return $this->redirectToRoute('users_list');
@@ -119,5 +125,32 @@ class UserController extends Controller
 
         return $this->redirectToRoute('users_list');
 
+    }
+
+    /**
+     * @Route("/profile", name="users_profile")
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function profile(Request $request)
+    {
+        $user = $this->userService->getById($this->getUser()->getId());
+        $profile = new Profile($user);
+
+        $form = $this->createForm(ProfileType::class, $profile);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->updateCredentials($profile);
+            if ($this->userService->edit($user)) {
+                $this->addFlash('success','Your changes were saved!');
+            }
+        }
+
+        return $this->render('user/profile.html.twig',[
+            'form' => $form->createView()
+        ]);
     }
 }
