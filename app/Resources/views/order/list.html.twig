@@ -50,7 +50,7 @@
                             <td class="no-print">
                                 <a href="{{ path('orders_view', {id: order.id}) }}" class="btn btn-sm btn-info">View</a>
                                 <a href="{{ path('orders_edit', {id: order.id}) }}" class="btn btn-sm btn-success">Edit</a>
-                                <a href="{{ path('orders_delete', {id: order.id}) }}" class="btn btn-sm btn-danger">Delete</a>
+                                <a href="{{ path('orders_delete', {id: order.id}) }}" data-toggle="modal" data-target="#deleteModal" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -70,6 +70,10 @@
     <script>
         $('#dataTable').DataTable({
             "order": [[ 6, "desc" ]]
+        });
+
+        $('a[data-target="#deleteModal"]').on('click',function(e) {
+            $('#delete_button').attr('href', e.target.href);
         });
     </script>
 {% endblock %}

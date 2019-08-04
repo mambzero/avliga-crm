@@ -104,3 +104,7 @@ $('.chosen-plugin').chosen().on('change',function (e,params) {
         }
     }
 });
+
+$('[data-toggle="tooltip"]').tooltip({
+    trigger: 'hover'
+});
