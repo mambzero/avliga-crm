@@ -55,7 +55,9 @@ class Order
     {
         $this->dateAdded = new \DateTime('now');
         $this->details = new ArrayCollection();
+        $this->reports = new ArrayCollection();
     }
+
 
     /**
      * Get id

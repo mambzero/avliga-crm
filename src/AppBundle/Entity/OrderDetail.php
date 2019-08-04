@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,7 +47,7 @@ class OrderDetail
     /**
      * @var Product
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="details")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="orderDetails")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
     private $product;
@@ -71,7 +72,6 @@ class OrderDetail
      * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
      */
     private $price;
-
 
     /**
      * Get id

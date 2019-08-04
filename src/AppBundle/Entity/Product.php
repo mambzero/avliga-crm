@@ -75,14 +75,22 @@ class Product
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderDetail", mappedBy="product")
      */
-    private $details;
+    private $orderDetails;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ReportDetail", mappedBy="product")
+     */
+    private $reportDetails;
 
 
 
     public function __construct()
     {
         $this->entries = new ArrayCollection();
-        $this->details = new ArrayCollection();
+        $this->orderDetails = new ArrayCollection();
+        $this->reportDetails = new ArrayCollection();
     }
 
     /**

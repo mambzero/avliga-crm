@@ -92,6 +92,13 @@ class Client
         $this->orders = new ArrayCollection();
     }
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Report", mappedBy="client")
+     */
+    private $reports;
+
 
     /**
      * Get id
@@ -288,6 +295,22 @@ class Client
     public function setActive($active)
     {
         $this->active = $active;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getReports(): ArrayCollection
+    {
+        return $this->reports;
+    }
+
+    /**
+     * @param ArrayCollection $reports
+     */
+    public function setReports(ArrayCollection $reports): void
+    {
+        $this->reports = $reports;
     }
 
 }
