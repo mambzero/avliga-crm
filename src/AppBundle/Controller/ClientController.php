@@ -93,11 +93,17 @@ class ClientController extends Controller
      * @Route("/clients/view/{id}", name="clients_view")
      * @Security("has_role('ROLE_USER')")
      *
-     * @param Client $client
+     * @param $id
      * @return Response
      */
-    public function clientView(Client $client)
+    public function clientView($id)
     {
+        $client = $this->clientService->getById($id);
+
+        if (!$client) {
+            return $this->redirectToRoute('clients_list');
+        }
+
         return $this->render('client/view.html.twig',[
             'client' => $client
         ]);
