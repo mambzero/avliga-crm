@@ -42,4 +42,13 @@ class OrderDetailRepository extends EntityRepository implements OrderDetailRepos
 
         return $detail['quantity'];
     }
+
+    /**
+     * @param int $id
+     * @return OrderDetail|Object|null
+     */
+    public function findOne(int $id): ?OrderDetail
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
 }
