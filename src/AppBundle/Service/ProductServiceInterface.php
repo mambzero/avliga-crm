@@ -37,4 +37,11 @@ interface ProductServiceInterface
      */
     public function getById($id): ?Product;
 
+    /**
+     * Returns [id => name] pairs
+     *
+     * @return array
+     */
+    public function getProductNames(): array;
+
 }

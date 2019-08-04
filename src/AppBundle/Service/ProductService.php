@@ -80,4 +80,22 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->listActive();
     }
 
+
+    /**
+     * Returns [id => name] pairs
+     *
+     * @return array
+     */
+    public function getProductNames(): array
+    {
+        $names = [];
+        $products = $this->listActive();
+
+        foreach ($products as $product) {
+            $names[$product->getId()] = $product->getTitle();
+        }
+
+        return $names;
+
+    }
 }

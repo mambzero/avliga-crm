@@ -45,6 +45,15 @@ label > ul {
     font-size: 15px;
 }
 
+#report_form .card-header ul {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 1em;
+    list-style: none;
+    color: red;
+}
+
 .abs-right-1 {
     position: absolute;
     right: 1em;

@@ -41,4 +41,9 @@ interface OrderRepositoryInterface
      * @return array
      */
     public function getErrors(): array;
+
+    /**
+     * @return Order[]
+     */
+    public function getOrders(): array;
 }

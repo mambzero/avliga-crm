@@ -128,4 +128,17 @@ class OrderRepository extends EntityRepository implements OrderRepositoryInterfa
         $this->errors[] = $error;
     }
 
+    /**
+     * @return Order[]
+     */
+    public function getOrders(): array
+    {
+        $orders = $this->findAll();
+
+        uasort($orders, function(Order $order1, Order $order2) {
+            return $order2->getDateAdded() <=> $order1->getDateAdded();
+        });
+
+        return $orders;
+    }
 }
