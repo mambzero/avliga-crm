@@ -87,17 +87,18 @@ class Client
      */
     private $orders;
 
-    public function __construct()
-    {
-        $this->orders = new ArrayCollection();
-    }
-
     /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Report", mappedBy="client")
      */
     private $reports;
+
+    public function __construct()
+    {
+        $this->orders = new ArrayCollection();
+        $this->reports = new ArrayCollection();
+    }
 
 
     /**
