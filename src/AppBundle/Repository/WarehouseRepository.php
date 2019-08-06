@@ -29,7 +29,8 @@ class WarehouseRepository implements WarehouseRepositoryInterface
                 p.title,
                 e.quantity as entries,
                 d.quantity as orders,
-                e.quantity - d.quantity as stocks
+                r.quantity as returns,
+                e.quantity - d.quantity + r.quantity as stocks
             FROM products AS p 
    
             JOIN (
@@ -49,6 +50,16 @@ class WarehouseRepository implements WarehouseRepositoryInterface
             LEFT JOIN entries AS e ON p.id = e.product_id
             GROUP BY p.id
             ) AS e ON p.id = e.product_id
+            
+            JOIN (
+            SELECT 
+                p.id AS product_id, 
+                IF(SUM(r.quantity) IS NULL, 0, SUM(r.quantity)) AS quantity 
+            FROM products AS p
+            LEFT JOIN returns AS r ON p.id = r.product_id
+		    GROUP BY p.id
+            ) AS r ON p.id = r.product_id
+            
             WHERE p.active = 1
         ';
 
@@ -68,7 +79,7 @@ class WarehouseRepository implements WarehouseRepositoryInterface
         $db = $this->entityManager->getConnection();
         $sql = '
             SELECT 
-                e.quantity - d.quantity as stock
+                e.quantity - d.quantity + r.quantity as stock
             FROM products AS p 
    
             JOIN (
@@ -88,6 +99,16 @@ class WarehouseRepository implements WarehouseRepositoryInterface
             LEFT JOIN entries AS e ON p.id = e.product_id
             GROUP BY p.id
             ) AS e ON p.id = e.product_id
+            
+            JOIN (
+            SELECT 
+                p.id AS product_id, 
+                IF(SUM(r.quantity) IS NULL, 0, SUM(r.quantity)) AS quantity 
+            FROM products AS p
+            LEFT JOIN returns AS r ON p.id = r.product_id
+		    GROUP BY p.id
+            ) AS r ON p.id = r.product_id
+
             WHERE p.id = :id
         ';
 
