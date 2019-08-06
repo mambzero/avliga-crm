@@ -65,8 +65,7 @@ class OrderDetailType extends AbstractType
             ->add('quantity', IntegerType::class, [
                 'constraints' => [
                     new NotBlank(),
-                    new GreaterThan(0),
-                    //new LessThanOrEqual($this->warehouse->getProductStock($this->getProduct()->getId()))
+                    new GreaterThan(0)
                 ],
                 'label' => false,
                 'required' => false

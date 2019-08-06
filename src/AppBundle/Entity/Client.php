@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Ldap\Adapter\CollectionInterface;
 
 /**
  * Client
@@ -94,10 +95,18 @@ class Client
      */
     private $reports;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ReEntry", mappedBy="client")
+     */
+    private $returns;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->reports = new ArrayCollection();
+        $this->returns = new ArrayCollection();
     }
 
 
@@ -312,6 +321,22 @@ class Client
     public function setReports(ArrayCollection $reports): void
     {
         $this->reports = $reports;
+    }
+
+    /**
+     * @return ArrayCollection|CollectionInterface
+     */
+    public function getReturns(): CollectionInterface
+    {
+        return $this->returns;
+    }
+
+    /**
+     * @param ArrayCollection $returns
+     */
+    public function setReturns(ArrayCollection $returns): void
+    {
+        $this->returns = $returns;
     }
 
 }

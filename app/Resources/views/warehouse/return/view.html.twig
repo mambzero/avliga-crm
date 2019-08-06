@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    <div class="row">
+        <!-- Client Data -->
+        <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
+            <div class="card-header d-flex justify-content-between py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Return ID: {{ return.id }}</h6>
+                <a href="{{ path('entries_list') }}" class="abs-right-1"><i class="fas fa-times-circle fa-lg text-dark p-0"></i></a>
+            </div>
+            <div class="card-body p-0">
+                <table class="table">
+                    <tr>
+                        <th>Client</th>
+                        <td>{{ return.client.company }}</td>
+                    </tr>
+                    <tr>
+                        <th>Product</th>
+                        <td>{{ return.product.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Quantity</th>
+                        <td>{{ return.quantity }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date Added</th>
+                        <td>{{ return.dateAdded|date('Y-m-d H:i:s') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

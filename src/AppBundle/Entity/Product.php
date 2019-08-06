@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Ldap\Adapter\CollectionInterface;
 
 /**
  * Product
@@ -84,6 +85,13 @@ class Product
      */
     private $reportDetails;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ReEntry", mappedBy="product")
+     */
+    private $returns;
+
 
 
     public function __construct()
@@ -91,6 +99,7 @@ class Product
         $this->entries = new ArrayCollection();
         $this->orderDetails = new ArrayCollection();
         $this->reportDetails = new ArrayCollection();
+        $this->returns = new ArrayCollection();
     }
 
     /**
@@ -254,6 +263,25 @@ class Product
             return 'Active';
         }
         return 'Disabled';
+    }
+
+    /**
+     * @return ArrayCollection|CollectionInterface
+     */
+    public function getReturns(): CollectionInterface
+    {
+        return $this->returns;
+    }
+
+    /**
+     * @param ArrayCollection $returns
+     * @return Product
+     */
+    public function setReturns(ArrayCollection $returns): Product
+    {
+        $this->returns = $returns;
+
+        return $this;
     }
 }
 
