@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping;
+use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 
 /**
@@ -86,5 +87,22 @@ class ReturnRepository extends EntityRepository implements ReturnRepositoryInter
     public function findOne(int $id): ?ReEntry
     {
         return $this->findOneBy(['id' => $id]);
+    }
+
+    /**
+     * @param int $id
+     * @return int
+     * @throws NonUniqueResultException
+     */
+    public function getQuantity(int $id): int
+    {
+        $report = $this->createQueryBuilder('r')
+            ->select('r.quantity as quantity')
+            ->where('r.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $report['quantity'];
     }
 }

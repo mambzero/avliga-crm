@@ -4,7 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Ldap\Adapter\CollectionInterface;
+use Doctrine\Common\Collections\Collection;
+use http\Env\Request;
 
 /**
  * Client
@@ -276,22 +277,6 @@ class Client
     }
 
     /**
-     * @return ArrayCollection
-     */
-    public function getOrders()
-    {
-        return $this->orders;
-    }
-
-    /**
-     * @param ArrayCollection $orders
-     */
-    public function setOrders($orders)
-    {
-        $this->orders = $orders;
-    }
-
-    /**
      * @return bool
      */
     public function getActive()
@@ -308,9 +293,25 @@ class Client
     }
 
     /**
-     * @return ArrayCollection
+     * @return ArrayCollection|Order[]|Collection
      */
-    public function getReports(): ArrayCollection
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    /**
+     * @param ArrayCollection $orders
+     */
+    public function setOrders($orders)
+    {
+        $this->orders = $orders;
+    }
+
+    /**
+     * @return ArrayCollection|Report[]|Collection
+     */
+    public function getReports(): Collection
     {
         return $this->reports;
     }
@@ -324,9 +325,9 @@ class Client
     }
 
     /**
-     * @return ArrayCollection|CollectionInterface
+     * @return ArrayCollection|ReEntry[]|Collection
      */
-    public function getReturns(): CollectionInterface
+    public function getReturns(): Collection
     {
         return $this->returns;
     }
@@ -337,6 +338,58 @@ class Client
     public function setReturns(ArrayCollection $returns): void
     {
         $this->returns = $returns;
+    }
+
+    public function getStocks(): array
+    {
+        $orders = $this->getOrders();
+        $reports = $this->getReports();
+        $returns = $this->getReturns();
+
+        $products = [];
+        $stocks = [];
+
+        foreach ($orders as $order) {
+            foreach ($order->getDetails() as $detail) {
+                $productId = $detail->getProduct()->getId();
+                if (!key_exists($productId,$stocks)) {
+                    $products[$productId] = $detail->getProduct()->getTitle();
+                    $stocks[$productId] = 0;
+                }
+                $stocks[$productId] += $detail->getQuantity();
+            }
+        }
+
+        foreach ($reports as $report) {
+            foreach ($report->getDetails() as $detail) {
+                $productId = $detail->getProduct()->getId();
+                $stocks[$productId] -= $detail->getQuantity();
+            }
+        }
+
+        foreach ($returns as $return) {
+            $productId = $return->getProduct()->getId();
+            $stocks[$productId] -= $return->getQuantity();
+        }
+
+        $stocks = array_combine($products,$stocks);
+
+        ksort($stocks);
+
+        return array_filter($stocks);
+
+    }
+
+    public function hasOrderedProduct(Product $product): bool
+    {
+        foreach ($this->getOrders() as $order) {
+            foreach ($order->getDetails() as $detail) {
+                if ($detail->getProduct()->getId() == $product->getId()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

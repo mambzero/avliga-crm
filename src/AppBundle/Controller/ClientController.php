@@ -98,14 +98,18 @@ class ClientController extends Controller
      */
     public function clientView($id)
     {
+
         $client = $this->clientService->getById($id);
+
+        $stocks = $this->clientService->getClientStocks($client);
 
         if (!$client) {
             return $this->redirectToRoute('clients_list');
         }
 
         return $this->render('client/view.html.twig',[
-            'client' => $client
+            'client' => $client,
+            'stocks' => $stocks
         ]);
     }
 

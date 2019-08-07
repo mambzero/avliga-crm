@@ -1,7 +1,10 @@
 {% macro printDetailRow(form, products) %}
     <td>
-        <label class="mt-2 ml-1">{{ products[form.product.vars.value] }}</label>
-        {{ form_widget(form.product) }}
+        {% set product_error = form_errors(form.product) %}
+        <span tabindex="0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{ product_error }}">
+            <label class="mt-2 ml-1{% if product_error %} text-danger{% endif %}">{{ products[form.product.vars.value] }}</label>
+            {{ form_widget(form.product) }}
+        </span>
     </td>
     <td>
         {% set quantity_error = form_errors(form.quantity) %}

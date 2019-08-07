@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Client;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -81,5 +82,78 @@ class ClientRepository extends EntityRepository implements ClientRepositoryInter
     public function listActive(): array
     {
         return $this->findBy(['active' => true]);
+    }
+
+    /**
+     * Retuns array of orders, reports and returns of ordered products
+     *
+     * @param Client $client
+     * @return array
+     * @throws DBALException
+     */
+    public function getClientInfo(Client $client): array
+    {
+        $db = $this->_em->getConnection();
+        $sql = '
+            SELECT 
+                p.id,
+                p.title,   
+                o.quantity AS ordered,
+                r1.quantity AS reported,
+                r2.quantity AS returned
+            FROM products AS p
+            
+            LEFT JOIN (
+                SELECT 
+                    c.id AS client_id,
+                    c.company AS client_name,
+                    o.id AS order_id,
+                    d.product_id AS product_id,
+                    SUM(d.quantity) AS quantity
+                FROM clients AS c
+                    LEFT JOIN orders AS o 
+                    ON c.id = o.client_id
+                    LEFT JOIN order_details AS d
+                    ON o.id = d.order_id
+                WHERE c.id = :id
+                GROUP BY d.product_id
+            ) AS o ON p.id = o.product_id
+            
+            LEFT JOIN (
+                SELECT 
+                    c.id AS client_id,
+                    c.company AS client_name,
+                    r.id AS report_id,
+                    d.product_id AS product_id,
+                    SUM(d.quantity) AS quantity
+                FROM clients AS c
+                    LEFT JOIN reports AS r 
+                    ON c.id = r.client_id
+                    LEFT JOIN report_details AS d
+                    ON r.id = d.report_id
+                WHERE c.id = :id
+                GROUP BY d.product_id
+            ) AS r1 ON p.id = r1.product_id
+            
+            LEFT JOIN (
+                SELECT 
+                    c.id AS client_id,
+                    c.company AS client_name,
+                    r.id AS return_id,
+                    r.product_id AS product_id,
+                    SUM(r.quantity) AS quantity
+                FROM clients AS c
+                    LEFT JOIN returns AS r 
+                    ON c.id = r.client_id
+                WHERE c.id = :id
+                GROUP BY r.product_id
+            ) r2 ON p.id = r2.product_id
+            WHERE o.quantity IS NOT NULL
+        ';
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute(['id' => $client->getId()]);
+
+        return $stmt->fetchAll();
     }
 }

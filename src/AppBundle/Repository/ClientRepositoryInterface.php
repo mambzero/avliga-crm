@@ -36,4 +36,12 @@ interface ClientRepositoryInterface
      */
     public function listActive(): array;
 
+    /**
+     * Retuns array of orders, reports and returns of ordered products
+     *
+     * @param Client $client
+     * @return array
+     */
+    public function getClientInfo(Client $client): array;
+
 }

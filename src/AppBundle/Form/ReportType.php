@@ -3,16 +3,12 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Client;
-use AppBundle\Entity\Order;
-use AppBundle\Entity\OrderDetail;
 use AppBundle\Entity\ReportDetail;
-use AppBundle\Repository\ClientRepositoryInterface;
-use AppBundle\Repository\OrderRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Repository\ReportDetailRepositoryInterface;
+use AppBundle\Service\ClientServiceInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -23,16 +19,19 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ReportType extends AbstractType
 {
-    private $clientRepository;
+    private $clientService;
+    private $reportDetailRepository;
 
-    public function __construct(ClientRepositoryInterface $clientRepository)
+    public function __construct(ClientServiceInterface $clientService, ReportDetailRepositoryInterface $reportDetailRepository)
     {
-        $this->clientRepository = $clientRepository;
+        $this->clientService = $clientService;
+        $this->reportDetailRepository = $reportDetailRepository;
+
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $clients = $this->clientRepository->listActive();
+        $clients = $this->clientService->listAll(true);
 
         $builder->add('client', EntityType::class, [
             'class' => Client::class,
@@ -49,27 +48,57 @@ class ReportType extends AbstractType
             ],
             'required' => false
         ])
-        ->add('details', CollectionType::class, [
-            'entry_type' => ReportDetailType::class,
-            'allow_add' => false,
-            'allow_delete' => false
-        ])->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            $data = $event->getData();
-            $form = $event->getForm();
-            $details = $data->getDetails();
-            $error = true;
-            /** @var ReportDetail $detail */
-            foreach ($details as $detail) {
-                if (!is_null($detail->getQuantity())) {
-                    $error = false;
-                    break;
-                }
-            }
-            if ($error) {
-                $form->get('details')->addError(new FormError('You should report at least one product.'));
-            }
+            ->add('details', CollectionType::class, [
+                'entry_type' => ReportDetailType::class,
+                'allow_add' => false,
+                'allow_delete' => false
+            ])->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                /**
+                 * @var ReportDetail[] $details
+                 * @var Client $client
+                 */
+                $data = $event->getData();
+                $form = $event->getForm();
+                $details = $data->getDetails();
+                $client = $data->getClient();
+                $error = true;
 
-        });
+                foreach ($details as $detail) {
+                    if (!is_null($detail->getQuantity())) {
+                        $error = false;
+                        break;
+                    }
+                }
+
+                if ($error) {
+                    $form->get('details')->addError(new FormError('You should report at least one product.'));
+                    return;
+                }
+
+                if (!is_null($client)) {
+                    foreach ($details as $key => $detail) {
+                        $quantity = $detail->getQuantity();
+                        if (!is_null($quantity)) {
+                            $clientStock = $this->clientService->getClientStockByProduct($client,$detail->getProduct());
+                            if (!is_null($data->getId()) && !is_null($detail->getId())) {
+                                $quantity -= $this->reportDetailRepository->getQuantity($detail->getId());
+                            }
+                            if (is_null($clientStock) && $quantity > 0) {
+                                $form->get('details')
+                                    ->get($key)
+                                    ->get('product')
+                                    ->addError(new FormError('No stocks in client.'));
+                            } elseif ($clientStock < $quantity && $quantity > 0) {
+                                $form->get('details')
+                                    ->get($key)
+                                    ->get('quantity')
+                                    ->addError(new FormError('Not enough stocks is client.'));
+                            }
+                        }
+                    }
+                }
+
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver)

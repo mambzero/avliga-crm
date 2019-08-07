@@ -36,4 +36,10 @@ interface ReturnRepositoryInterface
      * @return ReEntry|Object|null
      */
     public function findOne(int $id): ?ReEntry;
+
+    /**
+     * @param int $id
+     * @return int
+     */
+    public function getQuantity(int $id): int;
 }
