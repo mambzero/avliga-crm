@@ -86,7 +86,6 @@ class ReEntryType extends AbstractType
 
                     if (!is_null($data->getId())) {
                         $quantity -= $this->returnRepository->getQuantity($data->getId());
-                        //dump($quantity); exit;
                     }
 
                     if (is_null($stock) && $quantity > 0) {
