@@ -92,7 +92,7 @@ class ReportType extends AbstractType
                                 $form->get('details')
                                     ->get($key)
                                     ->get('quantity')
-                                    ->addError(new FormError('Not enough stocks is client.'));
+                                    ->addError(new FormError('Not enough stocks in client.'));
                             }
                         }
                     }

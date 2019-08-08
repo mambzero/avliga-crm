@@ -91,7 +91,7 @@ class ReEntryType extends AbstractType
                     if (is_null($stock) && $quantity > 0) {
                         $form->get('product')->addError(new FormError('No stocks in client.'));
                     } elseif ($stock < $quantity && $quantity > 0) {
-                        $form->get('quantity')->addError(new FormError('Not enough stocks is client.'));
+                        $form->get('quantity')->addError(new FormError('Not enough stocks in client.'));
                     }
 
                 }
