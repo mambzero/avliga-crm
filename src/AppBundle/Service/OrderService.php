@@ -6,15 +6,20 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Order;
 use AppBundle\Repository\OrderRepositoryInterface;
+use AppBundle\Repository\ReportRepositoryInterface;
+use DateTime;
+use Exception;
 
 class OrderService implements OrderServiceInterface
 {
 
     private $orderRepository;
+    private $reportRepository;
 
-    public function __construct(OrderRepositoryInterface $orderRepository)
+    public function __construct(OrderRepositoryInterface $orderRepository, ReportRepositoryInterface $reportRepository)
     {
         $this->orderRepository = $orderRepository;
+        $this->reportRepository = $reportRepository;
     }
 
     /**
@@ -67,5 +72,31 @@ class OrderService implements OrderServiceInterface
     public function getErrors():array
     {
         return $this->orderRepository->getErrors();
+    }
+
+    /**
+     * Returns reported products percentage from ordered products
+     * @return float
+     */
+    public function getOrdersCompletedPercentage(): float
+    {
+        $reportedProducts = $this->reportRepository->getReportedProductsCount();
+        $orderedProducts = $this->orderRepository->getOrderedProductsCount();
+
+        return floatval($reportedProducts / $orderedProducts) * 100;
+
+    }
+
+
+    /**
+     * @return int
+     * @throws Exception
+     */
+    public function ordersThisMonth(): int
+    {
+        $datetime = new DateTime('now');
+        $orders = $this->orderRepository->countOrdersByMonth($datetime);
+
+        return $orders === null ? 0 : $orders;
     }
 }
