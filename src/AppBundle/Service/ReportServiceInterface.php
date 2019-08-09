@@ -36,4 +36,20 @@ interface ReportServiceInterface
      * @return Report|null
      */
     public function getInstance(int $id = null): ?Report;
+
+    /**
+     * @return array
+     */
+    public function getEarningsByMonths(): array;
+
+    /**
+     * @return float
+     */
+    public function getEarningsForCurrentYear(): float;
+
+    /**
+     * @return float
+     */
+    public function getEarningsForCurrentMonth(): float;
+
 }

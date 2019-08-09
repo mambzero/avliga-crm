@@ -6,8 +6,12 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Report;
 use AppBundle\Entity\ReportDetail;
+use AppBundle\Repository\OrderRepositoryInterface;
 use AppBundle\Repository\ProductRepositoryInterface;
 use AppBundle\Repository\ReportRepositoryInterface;
+use DateTime;
+use Exception;
+use Symfony\Component\Validator\Constraints\Date;
 
 class ReportService implements ReportServiceInterface
 {
@@ -95,4 +99,66 @@ class ReportService implements ReportServiceInterface
 
         return $report;
     }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getEarningsByMonths(): array
+    {
+        $datetime = new DateTime('now');
+        $data = $this->reportRepository->getEarningsByMonths($datetime);
+        $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        $totals = array_fill(0,12, 0);
+
+        foreach ($data as $row) {
+            foreach ($months as $key => $month) {
+                if ($month == $row['month']) {
+                    $totals[$key] = floatval($row['total']);
+                    break;
+                }
+            }
+        }
+
+        return [
+            'months' => $months,
+            'totals' => $totals
+        ];
+
+    }
+
+    /**
+     * @return float
+     * @throws Exception
+     */
+    public function getEarningsForCurrentYear(): float
+    {
+        $datetime = new DateTime('now');
+        $earnings = $this->reportRepository->getEarningsAnnual($datetime);
+
+        if (is_null($earnings)) {
+            return floatval(0);
+        }
+
+        return $earnings;
+
+    }
+
+    /**
+     * @return float
+     * @throws Exception
+     */
+    public function getEarningsForCurrentMonth(): float
+    {
+        $datetime = new DateTime('now');
+        $earnings = $this->reportRepository->getEarningsMonthly($datetime);
+
+        if (is_null($earnings)) {
+            return floatval(0);
+        }
+
+        return $earnings;
+
+    }
+
 }
