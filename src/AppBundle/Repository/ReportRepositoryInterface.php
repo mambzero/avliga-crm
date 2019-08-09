@@ -5,6 +5,7 @@ namespace AppBundle\Repository;
 
 
 use AppBundle\Entity\Report;
+use Datetime;
 
 interface ReportRepositoryInterface
 {
@@ -36,4 +37,27 @@ interface ReportRepositoryInterface
      * @return Report|Object|null
      */
     public function findOne(int $id): ?Report;
+
+    /**
+     * @param Datetime $datetime
+     * @return array
+     */
+    public function getEarningsByMonths(Datetime $datetime): array;
+
+    /**
+     * @param Datetime $datetime
+     * @return float|null
+     */
+    public function getEarningsAnnual(Datetime $datetime): ?float;
+
+    /**
+     * @param Datetime $datetime
+     * @return float|null
+     */
+    public function getEarningsMonthly(DateTime $datetime): ?float;
+
+    /**
+     * @return int|null
+     */
+    public function getReportedProductsCount(): ?int;
 }
