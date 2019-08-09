@@ -5,6 +5,7 @@ namespace AppBundle\Repository;
 
 
 use AppBundle\Entity\Order;
+use DateTime;
 
 interface OrderRepositoryInterface
 {
@@ -46,4 +47,15 @@ interface OrderRepositoryInterface
      * @return Order[]
      */
     public function getOrders(): array;
+
+    /**
+     * @return int|null
+     */
+    public function getOrderedProductsCount(): ?int;
+
+    /**
+     * @param DateTime $datetime
+     * @return int|null
+     */
+    public function countOrdersByMonth(DateTime $datetime): ?int;
 }

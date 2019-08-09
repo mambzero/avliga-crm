@@ -3,10 +3,12 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Order;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping;
+use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 
 /**
@@ -140,5 +142,47 @@ class OrderRepository extends EntityRepository implements OrderRepositoryInterfa
         });
 
         return $orders;
+    }
+
+    /**
+     * @return int|null
+     * @throws NonUniqueResultException
+     */
+    public function getOrderedProductsCount(): ?int
+    {
+        $result =  $this->createQueryBuilder('o')
+            ->select('SUM(d.quantity) as quantity')
+            ->leftJoin('o.details', 'd')
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result['quantity'];
+    }
+
+    /**
+     * @param DateTime $datetime
+     * @return int|null
+     * @throws NonUniqueResultException
+     */
+    public function countOrdersByMonth(DateTime $datetime): ?int
+    {
+        $result = $this->createQueryBuilder('o')
+            ->select([
+                'COUNT(o.id) as orders',
+                'DATE_FORMAT(o.dateAdded, \'%b\') as month',
+                'DATE_FORMAT(o.dateAdded, \'%Y\') as year'
+            ])
+            ->groupBy('month, year')
+            ->having('month = :month AND year = :year')
+            ->setParameters([
+                'month' => $datetime->format('M'),
+                'year' => $datetime->format('Y')
+            ])
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        //dump($result); exit;
+
+        return $result['orders'];
     }
 }
