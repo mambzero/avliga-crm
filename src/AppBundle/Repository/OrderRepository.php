@@ -83,7 +83,7 @@ class OrderRepository extends EntityRepository implements OrderRepositoryInterfa
             ])
             ->join('o.client','c')
             ->leftJoin('o.details','d')
-            ->groupBy('d.orderId')
+            ->groupBy('o.id')
             ->getQuery()
             ->getResult();
     }
