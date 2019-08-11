@@ -37,9 +37,9 @@
                     {% for report in reports %}
                         <tr>
                             <td>{{ report.id }}</td>
-                            <td>{{ report.client.company }}</td>
+                            <td>{{ report.client }}</td>
                             <td>{{ report.total|price }}</td>
-                            <td>{{ report.dateAdded|date('Y-m-d H:i:s')}}</td>
+                            <td>{{ report.date|date('Y-m-d H:i:s')}}</td>
                             <td class="no-print">
                                 <a href="{{ path('reports_view', {id: report.id}) }}" class="btn btn-sm btn-info">View</a>
                                 <a href="{{ path('reports_edit', {id: report.id}) }}" class="btn btn-sm btn-success">Edit</a>

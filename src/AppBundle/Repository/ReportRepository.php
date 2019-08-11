@@ -78,7 +78,18 @@ class ReportRepository extends EntityRepository implements ReportRepositoryInter
      */
     public function listAll(): array
     {
-        return $this->findAll();
+        return $this->createQueryBuilder('r')
+            ->select([
+                'r.id',
+                'c.company as client',
+                'ROUND(sum(d.price * d.quantity) - sum(((d.price * d.quantity)*d.discount)/100),2) as total',
+                'DATE_FORMAT(r.dateAdded, \'%Y-%m-%d %H:%i\') as date'
+            ])
+            ->join('r.client','c')
+            ->leftJoin('r.details','d')
+            ->groupBy('r.id')
+            ->getQuery()
+            ->getResult();
     }
 
     /**
