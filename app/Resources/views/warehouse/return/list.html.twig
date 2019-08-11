@@ -39,8 +39,8 @@
                     {% for return in returns %}
                         <tr>
                             <td>{{ return.id }}</td>
-                            <td>{{ return.client.company }}</td>
-                            <td>{{ return.product.title }}</td>
+                            <td>{{ return.client }}</td>
+                            <td>{{ return.product }}</td>
                             <td>{{ return.quantity }}</td>
                             <td>{{ return.dateAdded|date('Y-m-d H:i:s') }}</td>
                             <td class="no-print">

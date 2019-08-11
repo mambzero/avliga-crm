@@ -77,7 +77,13 @@ class ReturnRepository extends EntityRepository implements ReturnRepositoryInter
      */
     public function listAll(): array
     {
-        return $this->findAll();
+        return $this->createQueryBuilder('r')
+            ->select('r.id, c.company as client, p.title as product, r.quantity, r.dateAdded')
+            ->join('r.client', 'c')
+            ->join('r.product', 'p')
+            ->orderBy('r.dateAdded', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     /**
