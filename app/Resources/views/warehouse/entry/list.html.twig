@@ -37,7 +37,7 @@
                     {% for entry in entries %}
                         <tr>
                             <td>{{ entry.id }}</td>
-                            <td>{{ entry.product.title }}</td>
+                            <td>{{ entry.product }}</td>
                             <td>{{ entry.quantity }}</td>
                             <td>{{ entry.dateAdded|date('Y-m-d H:i:s') }}</td>
                             <td class="no-print">

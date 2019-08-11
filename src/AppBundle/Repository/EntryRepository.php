@@ -61,7 +61,12 @@ class EntryRepository extends EntityRepository implements EntryRepositoryInterfa
      */
     public function listAll(): array
     {
-        return $this->createQueryBuilder('e')->orderBy('e.dateAdded', 'DESC')->getQuery()->getResult();
+        return $this->createQueryBuilder('e')
+            ->select('e.id, p.title as product, e.quantity, e.dateAdded')
+            ->join('e.product', 'p')
+            ->orderBy('e.dateAdded', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     /**
