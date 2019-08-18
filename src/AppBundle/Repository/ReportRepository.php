@@ -81,7 +81,7 @@ class ReportRepository extends EntityRepository implements ReportRepositoryInter
         return $this->createQueryBuilder('r')
             ->select([
                 'r.id',
-                'c.company as client',
+                'CASE WHEN c.privatePerson = 1 THEN c.responsiblePerson ELSE c.company END as client',
                 'ROUND(sum(d.price * d.quantity) - sum(((d.price * d.quantity)*d.discount)/100),2) as total',
                 'DATE_FORMAT(r.dateAdded, \'%Y-%m-%d %H:%i\') as date'
             ])

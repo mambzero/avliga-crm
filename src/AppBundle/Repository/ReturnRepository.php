@@ -78,7 +78,12 @@ class ReturnRepository extends EntityRepository implements ReturnRepositoryInter
     public function listAll(): array
     {
         return $this->createQueryBuilder('r')
-            ->select('r.id, c.company as client, p.title as product, r.quantity, r.dateAdded')
+            ->select([
+                'r.id',
+                'CASE WHEN c.privatePerson = 1 THEN c.responsiblePerson ELSE c.company END as client',
+                'p.title as product',
+                'r.quantity',
+                'r.dateAdded'])
             ->join('r.client', 'c')
             ->join('r.product', 'p')
             ->orderBy('r.dateAdded', 'DESC')

@@ -74,7 +74,7 @@ class OrderRepository extends EntityRepository implements OrderRepositoryInterfa
         return $this->createQueryBuilder('o')
             ->select([
                 'o.id',
-                'c.company as client',
+                'CASE WHEN c.privatePerson = 1 THEN c.responsiblePerson ELSE c.company END as client',
                 'SUM(d.quantity) as quantity',
                 'sum(d.price * d.quantity) as price',
                 'ROUND(sum(((d.price * d.quantity)*d.discount)/100),2) as discount',
