@@ -9,15 +9,24 @@
         <!-- Client Data -->
         <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
             <div class="card-header d-flex justify-content-between py-3">
-                <h6 class="m-0 font-weight-bold text-primary">{{ client.company }}</h6>
+                <h6 class="m-0 font-weight-bold text-primary">{{ client.type }} Client</h6>
                 <a href="{{ path('clients_list') }}" class="abs-right-1"><i class="fas fa-times-circle fa-lg text-dark p-0"></i></a>
             </div>
             <div class="card-body p-0">
                 <table class="table">
                     <tbody>
                     <tr>
+                        <th>Name</th>
+                        <td>{{ client.name }}</td>
+                    </tr>
+                    <tr>
                         <th>Address</th>
                         <td>{{ client.address }}</td>
+                    </tr>
+                    {% if not client.privatePerson %}
+                    <tr>
+                        <th>Responsible Person</th>
+                        <td>{{ client.responsiblePerson }}</td>
                     </tr>
                     <tr>
                         <th>Unique Identifier</th>
@@ -27,9 +36,14 @@
                         <th>VAT Number</th>
                         <td>{{ client.vatNumber }}</td>
                     </tr>
+                    {% endif %}
                     <tr>
                         <th>Discount</th>
-                        <td>{{ client.discount }}</td>
+                        <td>{{ client.discount }}%</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>{{ client.status }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -41,6 +55,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Products</h6>
             </div>
             <div class="card-body p-0">
+                {% if stocks|count > 0 %}
                 <table class="table">
                     <thead>
                         <tr>
@@ -49,7 +64,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for stock in stocks%}
+                    {% for stock in stocks %}
                         <tr>
                             <td>{{ stock['title'] }}</td>
                             <td>{{ stock['stock'] }}</td>
@@ -57,6 +72,9 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                    <h5 class="h5 h-middle text-gray-400">No stocks in client.</h5>
+                {% endif %}
             </div>
         </div>
 
