@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping;
+use Exception;
 
 /**
  * ClientRepository
@@ -37,7 +38,7 @@ class ClientRepository extends EntityRepository implements ClientRepositoryInter
         try {
             $this->_em->persist($client);
             $this->_em->flush();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
 
@@ -53,7 +54,7 @@ class ClientRepository extends EntityRepository implements ClientRepositoryInter
         try {
             $this->_em->merge($client);
             $this->_em->flush();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
         return false;

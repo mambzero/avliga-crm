@@ -5,7 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
-use http\Env\Request;
 
 /**
  * Client
@@ -103,11 +102,25 @@ class Client
      */
     private $returns;
 
-    public function __construct()
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="private_person", type="boolean", options={"default" : 0})
+     */
+    private $privatePerson;
+
+    public function __construct($privatePerson = false)
     {
         $this->orders = new ArrayCollection();
         $this->reports = new ArrayCollection();
         $this->returns = new ArrayCollection();
+        $this->privatePerson = $privatePerson;
+        if ($privatePerson) {
+            $this->setUniqueIdentifier(uniqid());
+            $this->setCompany('N/A');
+            $this->setActive(true);
+            $this->setVat(false);
+        }
     }
 
 
@@ -390,6 +403,57 @@ class Client
             }
         }
         return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrivatePerson(): bool
+    {
+        return $this->privatePerson;
+    }
+
+    /**
+     * @param bool $privatePerson
+     */
+    public function setPrivatePerson(bool $privatePerson): void
+    {
+        $this->privatePerson = $privatePerson;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        if ($this->isPrivatePerson()) {
+            return $this->getResponsiblePerson();
+        }
+        return $this->getCompany();
+    }
+
+    public function getStatus()
+    {
+        if ($this->getActive()) {
+            return 'Active';
+        }
+        return 'Disabled';
+    }
+
+    public function getEditPath()
+    {
+        if ($this->isPrivatePerson()) {
+            return 'private_person_edit';
+        }
+        return 'clients_edit';
+    }
+
+    public function getType()
+    {
+        if ($this->isPrivatePerson()) {
+            return 'Private';
+        }
+        return 'Company';
     }
 
 }

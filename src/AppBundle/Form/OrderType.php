@@ -29,7 +29,7 @@ class OrderType extends AbstractType
         $builder->add('client', EntityType::class, [
             'class' => Client::class,
             'choices' => $clients,
-            'choice_label' => 'company',
+            'choice_label' => 'name',
             'choice_value' => 'id',
             'choice_attr' => function (Client $client, $key, $index) {
                 return ['data-discount' => $client->getDiscount()];

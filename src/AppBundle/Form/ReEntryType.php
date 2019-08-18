@@ -42,7 +42,7 @@ class ReEntryType extends AbstractType
             ->add('client', EntityType::class, [
                 'class' => Client::class,
                 'choices' => $clients,
-                'choice_label' => 'company',
+                'choice_label' => 'name',
                 'choice_value' => 'id',
                 'placeholder' => 'Select client',
                 'constraints' => [

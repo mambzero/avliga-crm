@@ -10,42 +10,49 @@
     <div class="card shadow mb-4">
         <div class="card-header d-flex justify-content-between py-3">
             <h6 class="h4 mb-0 text-gray-800">Clients</h6>
-            <a href="{{ path('clients_add') }}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm abs-right-2 no-print"><i class="fas fa-arrow-alt-circle-left fa-sm text-white-50"></i> Add Client</a>
+            <div class="abs-right-2 no-print">
+                <a href="{{ path('clients_add') }}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-arrow-alt-circle-left fa-sm text-white-50"></i> Add Company
+                </a>
+                <a href="{{ path('private_person_add') }}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-arrow-alt-circle-left fa-sm text-white-50"></i> Add Private Client
+                </a>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>Company</th>
-                        <th>Unique Identifier</th>
-                        <th>VAT number</th>
-                        <th>Responsible Person</th>
+                        <th>Id</th>
+                        <th>Name</th>
                         <th>Discount</th>
+                        <th>Type</th>
+                        <th>Status</th>
                         <th class="no-print">Actions</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
-                        <th>Company</th>
-                        <th>Unique Identifier</th>
-                        <th>VAT number</th>
-                        <th>Responsible Person</th>
+                        <th>Id</th>
+                        <th>Name</th>
                         <th>Discount</th>
+                        <th>Type</th>
+                        <th>Status</th>
                         <th class="no-print">Actions</th>
                     </tr>
                     </tfoot>
                     <tbody>
                     {% for client in clients %}
                     <tr>
-                        <td>{{ client.company }}</td>
-                        <td>{{ client.uniqueIdentifier }}</td>
-                        <td>{{ client.vatNumber }}</td>
-                        <td>{{ client.responsiblePerson }}</td>
+                        <td>{{ client.id }}</td>
+                        <td>{{ client.name }}</td>
                         <td>{{ client.discount }}%</td>
+                        <td>{{ client.type }}</td>
+                        <td>{{ client.status }}</td>
                         <td class="no-print">
                             <a href="{{ path('clients_view', {id: client.id}) }}" class="btn btn-sm btn-info">View</a>
-                            <a href="{{ path('clients_edit', {id: client.id}) }}" class="btn btn-sm btn-success">Edit</a>
+                            <a href="{{ path(client.editPath, {id: client.id}) }}" class="btn btn-sm btn-success">Edit</a>
                         </td>
                     </tr>
                     {% endfor %}
