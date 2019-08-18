@@ -16,26 +16,32 @@
         <!-- Receiver Data -->
         <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Receiver: {{ order.client.company }}</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Receiver</h6>
             </div>
             <div class="card-body">
-                <p>Address: {{ order.client.address }}</p>
+                <p>{{ order.client.name }}</p>
+                {% if not order.client.privatePerson %}
                 <p>Unique Identifier: {{ order.client.uniqueIdentifier }}</p>
                 <p>VAT Number: {{ order.client.vatNumber }}</p>
                 <p>Responsible Person: {{ order.client.responsiblePerson }}</p>
+                {% endif %}
+                <p>Address: {{ order.client.address }}</p>
             </div>
         </div>
 
         <!-- Provider Data -->
         <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Provider: ИК АВЛИГА</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Provider</h6>
             </div>
             <div class="card-body">
-                <p>Address: </p>
+                <p>ИК АВЛИГА</p>
+                {% if not order.client.privatePerson %}
                 <p>Unique Identifier: </p>
                 <p>VAT Number: </p>
                 <p>Responsible Person: </p>
+                {% endif %}
+                <p>Address: </p>
             </div>
         </div>
     </div>

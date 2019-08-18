@@ -16,26 +16,32 @@
         <!-- Receiver Data -->
         <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Receiver: {{ report.client.company }}</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Receiver</h6>
             </div>
             <div class="card-body">
+                <p>{{ report.client.name }}</p>
+                {% if not report.client.privatePerson %}
+                    <p>Unique Identifier: {{ report.client.uniqueIdentifier }}</p>
+                    <p>VAT Number: {{ report.client.vatNumber }}</p>
+                    <p>Responsible Person: {{ report.client.responsiblePerson }}</p>
+                {% endif %}
                 <p>Address: {{ report.client.address }}</p>
-                <p>Unique Identifier: {{ report.client.uniqueIdentifier }}</p>
-                <p>VAT Number: {{ report.client.vatNumber }}</p>
-                <p>Responsible Person: {{ report.client.responsiblePerson }}</p>
             </div>
         </div>
 
         <!-- Provider Data -->
         <div class="card shadow mb-4 col-lg-6 col-md-6 p-0">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Provider: ИК АВЛИГА</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Provider</h6>
             </div>
             <div class="card-body">
+                <p>ИК АВЛИГА</p>
+                {% if not report.client.privatePerson %}
+                    <p>Unique Identifier: </p>
+                    <p>VAT Number: </p>
+                    <p>Responsible Person: </p>
+                {% endif %}
                 <p>Address: </p>
-                <p>Unique Identifier: </p>
-                <p>VAT Number: </p>
-                <p>Responsible Person: </p>
             </div>
         </div>
     </div>
