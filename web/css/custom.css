@@ -72,3 +72,7 @@ label > ul {
     -webkit-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
 }
+
+.hide-table {
+    display: none;
+}
