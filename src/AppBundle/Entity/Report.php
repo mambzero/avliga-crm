@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\_Interface\HistoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="reports")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ReportRepository")
  */
-class Report
+class Report implements HistoryInterface
 {
     /**
      * @var int
@@ -87,7 +88,7 @@ class Report
      *
      * @return \DateTime
      */
-    public function getDateAdded()
+    public function getDateAdded(): \DateTime
     {
         return $this->dateAdded;
     }
@@ -181,6 +182,20 @@ class Report
         }
 
         return number_format($total, 2 , '.', '');
+    }
+
+    public function getProductsCount(): int
+    {
+        $details =  $this->getDetails()->toArray();
+        $quantity = array_reduce($details, function($q, ReportDetail $detail){
+            return $q = $q + $detail->getQuantity();
+        }, 0);
+        return $quantity;
+    }
+
+    public function getActivityType(): string
+    {
+        return 'Report';
     }
 }
 

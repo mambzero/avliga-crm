@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\_Interface\HistoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -454,6 +455,25 @@ class Client
             return 'Private';
         }
         return 'Company';
+    }
+
+    public function getHistory(): \ArrayIterator
+    {
+        /** @var ArrayCollection */
+        $collection = new ArrayCollection(array_merge(
+            $this->getOrders()->toArray(),
+            $this->getReports()->toArray(),
+            $this->getReturns()->toArray()
+        ));
+
+        $history = $collection->getIterator();
+
+        $history->uasort(function(HistoryInterface $object1, HistoryInterface $object2) {
+            return $object2->getDateAdded() <=> $object1->getDateAdded();
+        });
+
+        return $history;
+
     }
 
 }

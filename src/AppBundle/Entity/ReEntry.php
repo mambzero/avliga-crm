@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\_Interface\HistoryInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="returns")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ReturnRepository")
  */
-class ReEntry
+class ReEntry implements HistoryInterface
 {
     /**
      * @var int
@@ -142,7 +143,7 @@ class ReEntry
     /**
      * @return int
      */
-    public function getQuantity(): ?int
+    public function getQuantity()
     {
         return $this->quantity;
     }
@@ -204,6 +205,19 @@ class ReEntry
     public function getProduct(): ?Product
     {
         return $this->product;
+    }
+
+    public function getProductsCount(): int
+    {
+        if (is_null($this->getQuantity())) {
+            return 0;
+        }
+        return $this->getQuantity();
+    }
+
+    public function getActivityType(): string
+    {
+        return 'Return';
     }
 }
 
