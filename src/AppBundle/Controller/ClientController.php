@@ -101,11 +101,11 @@ class ClientController extends Controller
 
         $client = $this->clientService->getById($id);
 
-        $stocks = $this->clientService->getClientStocks($client);
-
         if (!$client) {
             return $this->redirectToRoute('clients_list');
         }
+
+        $stocks = $this->clientService->getClientStocks($client);
 
         return $this->render('client/view.html.twig',[
             'client' => $client,
