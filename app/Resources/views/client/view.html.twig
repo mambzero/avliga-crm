@@ -131,7 +131,7 @@
                                     <td>{{ object.productsCount }}</td>
                                     <td>{{ object.dateAdded|date('Y-m-d H:i:s') }}</td>
                                     <td class="no-print">
-                                        <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#historyModal" data-target-id="{{ object.id }}" data-type="{{ object.activityType }}">Quick View</a>
+                                        <a href="#" class="btn btn-sm btn-primary" data-target="#historyModal" data-target-id="{{ object.id }}" data-type="{{ object.activityType }}">Quick View</a>
                                         <a href="{{ path(object.activityType|lower~'s_view', {id: object.id}) }}" class="btn btn-sm btn-info" target="_blank">Open Page</a>
                                     </td>
                                 </tr>
@@ -156,12 +156,7 @@
                 </div>
                 <div class="modal-body p-0">
                     <table class="table modal-table hide-table">
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
+                        <thead class="modal-thead"></thead>
                         <tbody class="modal-tbody"></tbody>
                     </table>
                 </div>
@@ -180,39 +175,10 @@
 <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
 <!-- Page level custom scripts -->
+<script src="{{ asset('js/history-modal.js/') }}"></script>
 <script>
-
     $('#dataTable').DataTable({
         "order": [[ 3, "desc" ]]
-    });
-
-    let modal = $('#historyModal');
-
-    modal.on('shown.bs.modal', function (e) {
-
-        let related_target = $(e.relatedTarget);
-        let target_id = related_target.data('target-id');
-        let target_type = related_target.data('type');
-        let title = target_type + ' id: ' + target_id;
-        modal.find('.modal-title').text(title);
-
-        $.ajax({
-            url: '/history/' + target_type.toLowerCase() + '/' + target_id,
-            success: function (data) {
-                $.each(data.products, function( index, product ) {
-                    let row = $('<tr></tr>');
-                    row.append('<td>' + product['title'] + '</td>');
-                    row.append('<td>' + product['quantity'] + '</td>');
-                    modal.find('.modal-tbody').append(row);
-                });
-                modal.find('.modal-table').fadeIn();
-            }
-        });
-
-    }).on('hidden.bs.modal', function () {
-        modal.find('.modal-title').html(null);
-        modal.find('.modal-tbody').html(null);
-        modal.find('.modal-table').hide();
     });
 </script>
 {% endblock %}
