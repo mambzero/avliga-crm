@@ -43,14 +43,20 @@ class HistoryController extends Controller
         $response = [];
         $order = $this->orderService->getById($id);
         if ($order) {
-            $response['products'] = [];
+            $response['items'] = [];
             foreach ($order->getDetails() as $detail) {
                 $product = [
                     'title' => $detail->getProduct()->getTitle(),
-                    'quantity' => $detail->getQuantity()
+                    'quantity' => $detail->getQuantity(),
+                    'price' => $this->formatPrice($detail->getPrice()),
+                    'discount' => $detail->getDiscount().'%',
+                    'sum' => $this->formatPrice($detail->getSum()),
+                    'total' => $this->formatPrice($detail->getTotal())
                 ];
-                array_push($response['products'],$product);
+                array_push($response['items'],$product);
+                $this->sortProducts($response['items']);
             }
+            $response['total'] = $this->formatPrice($order->getTotal());
             $response['date'] = $order->getDateAdded()->format(self::DATE_FORMAT);
             $code = Response::HTTP_OK;
         } else {
@@ -72,14 +78,20 @@ class HistoryController extends Controller
         $response = [];
         $report = $this->reportService->getById($id);
         if ($report) {
-            $response['products'] = [];
+            $response['items'] = [];
             foreach ($report->getDetails() as $detail) {
                 $product = [
                     'title' => $detail->getProduct()->getTitle(),
-                    'quantity' => $detail->getQuantity()
+                    'quantity' => $detail->getQuantity(),
+                    'price' => $this->formatPrice($detail->getPrice()),
+                    'discount' => $detail->getDiscount().'%',
+                    'sum' => $this->formatPrice($detail->getSum()),
+                    'total' => $this->formatPrice($detail->getTotal())
                 ];
-                array_push($response['products'],$product);
+                array_push($response['items'],$product);
+                $this->sortProducts($response['items']);
             }
+            $response['total'] = $this->formatPrice($report->getTotal());
             $response['date'] = $report->getDateAdded()->format(self::DATE_FORMAT);
             $code = Response::HTTP_OK;
         } else {
@@ -101,7 +113,7 @@ class HistoryController extends Controller
         $response = [];
         $return = $this->returnService->getById($id);
         if ($return) {
-            $response['products'][0] = [
+            $response['items'][0] = [
                 'title' => $return->getProduct()->getTitle(),
                 'quantity' => $return->getQuantity()
             ];
@@ -112,5 +124,17 @@ class HistoryController extends Controller
             $code = Response::HTTP_NOT_FOUND;
         }
         return new JsonResponse($response,$code);
+    }
+
+    private function formatPrice(float $number)
+    {
+        return number_format($number, 2, '.', '');
+    }
+
+    private function sortProducts(&$array)
+    {
+        usort($array, function ($product1,$product2) {
+            return $product1['title'] <=> $product2['title'];
+        });
     }
 }
