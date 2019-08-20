@@ -76,3 +76,7 @@ label > ul {
 .hide-table {
     display: none;
 }
+
+#historyModal .modal-table th {
+    text-transform: capitalize;
+}
