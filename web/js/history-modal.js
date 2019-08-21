@@ -2,6 +2,7 @@
 
 let modal = $('#historyModal');
 let quick_view = $('a[data-target="#historyModal"]');
+let alert = $('<div class="alert alert-warning alert-dismissible fade show mb-0" role="alert"></div>');
 
 quick_view.on('click', function(e) {
 
@@ -45,6 +46,17 @@ quick_view.on('click', function(e) {
             }
 
             modal.find('.modal-table').fadeIn();
+        },
+        statusCode: {
+            404: function(data) {
+                data = JSON.parse(data.responseText);
+                alert.html('<strong>Error: 404</strong> ' + data.error);
+                modal.find('.modal-body').append(alert);
+            },
+            500: function() {
+                alert.html('<strong>Error: 500</strong> Internal Server Error');
+                modal.find('.modal-body').append(alert);
+            }
         }
     });
 
@@ -58,5 +70,8 @@ modal.on('hidden.bs.modal', function () {
     modal.find('.modal-table').hide();
     if (modal.find('.modal-dialog').hasClass('modal-lg')) {
         modal.find('.modal-dialog').removeClass('modal-lg');
+    }
+    if (modal.find('.alert').length) {
+        modal.find('.alert').remove();
     }
 });
