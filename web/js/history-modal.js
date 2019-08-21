@@ -36,6 +36,14 @@ quick_view.on('click', function(e) {
                 });
                 modal.find('.modal-tbody').append(row);
             });
+
+            if (data.items.length > 1) {
+                let row = $('<tr></tr>');
+                row.append('<th colspan="'+ (Object.keys(data.items[0]).length - 1) +'" class="text-right">&nbsp;</th>');
+                row.append('<td>' + data.total + '</td>');
+                modal.find('.modal-tfoot').html(row);
+            }
+
             modal.find('.modal-table').fadeIn();
         }
     });
@@ -46,6 +54,7 @@ quick_view.on('click', function(e) {
 modal.on('hidden.bs.modal', function () {
     modal.find('.modal-title').html(null);
     modal.find('.modal-tbody').html(null);
+    modal.find('.modal-tfoot').html(null);
     modal.find('.modal-table').hide();
     if (modal.find('.modal-dialog').hasClass('modal-lg')) {
         modal.find('.modal-dialog').removeClass('modal-lg');
