@@ -42,4 +42,9 @@ interface ReturnRepositoryInterface
      * @return int
      */
     public function getQuantity(int $id): int;
+
+    /**
+     * @return int|null
+     */
+    public function getReturnedProductsCount(): ?int;
 }

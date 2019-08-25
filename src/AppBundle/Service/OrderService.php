@@ -71,15 +71,4 @@ class OrderService implements OrderServiceInterface
         return $this->orderRepository->getErrors();
     }
 
-    /**
-     * @return int
-     * @throws Exception
-     */
-    public function ordersThisMonth(): int
-    {
-        $datetime = new DateTime('now');
-        $orders = $this->orderRepository->countOrdersByMonth($datetime);
-
-        return $orders === null ? 0 : $orders;
-    }
 }

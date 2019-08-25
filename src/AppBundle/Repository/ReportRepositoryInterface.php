@@ -61,4 +61,9 @@ interface ReportRepositoryInterface
      * @return int|null
      */
     public function countReportsByMonth(Datetime $datetime): ?int;
+
+    /**
+     * @return int|null
+     */
+    public function getReportedProductsCount(): ?int;
 }

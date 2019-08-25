@@ -2,8 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Service\OrderServiceInterface;
-use AppBundle\Service\ReportServiceInterface;
+use AppBundle\Service\DashboardServiceInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,13 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends Controller
 {
-    private $reportService;
-    private $orderService;
+    private $dashboardService;
 
-    public function __construct(ReportServiceInterface $reportService, OrderServiceInterface $orderService)
+    public function __construct(DashboardServiceInterface $dashboardService)
     {
-        $this->reportService = $reportService;
-        $this->orderService = $orderService;
+        $this->dashboardService = $dashboardService;
     }
 
     /**
@@ -27,16 +24,19 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $earningsForCurrentMonth = $this->reportService->getEarningsForCurrentMonth();
-        $earningsForCurrentYear = $this->reportService->getEarningsForCurrentYear();
-        $ordersThisMonth = $this->orderService->ordersThisMonth();
-        $reportsThisMonth = $this->reportService->reportsThisMonth();
+        $earningsForCurrentMonth = $this->dashboardService->getEarningsForCurrentMonth();
+        $earningsForCurrentYear = $this->dashboardService->getEarningsForCurrentYear();
+        $ordersThisMonth = $this->dashboardService->ordersThisMonth();
+        $reportsThisMonth = $this->dashboardService->reportsThisMonth();
+
+        $ordersCompleted = $this->dashboardService->getOrdersCompletedPercentage();
 
         return $this->render('default/dashboard.html.twig',[
             'thisMonth' => $earningsForCurrentMonth,
             'thisYear' => $earningsForCurrentYear,
             'orders' => $ordersThisMonth,
-            'reports' => $reportsThisMonth
+            'reports' => $reportsThisMonth,
+            'completed' => $ordersCompleted
         ]);
     }
 
@@ -46,7 +46,17 @@ class DefaultController extends Controller
      */
     public function getEarnings()
     {
-        $earnings = $this->reportService->getEarningsByMonths();
+        $earnings = $this->dashboardService->earningsChartData();
         return new JsonResponse($earnings,Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/products/pie", name="products_pie", methods={"GET"})
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function productsPie()
+    {
+        $pieData = $this->dashboardService->productsPieData();
+        return new JsonResponse($pieData,Response::HTTP_OK);
     }
 }

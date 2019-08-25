@@ -168,4 +168,19 @@ class OrderRepository extends EntityRepository implements OrderRepositoryInterfa
 
         return $result['orders'];
     }
+
+    /**
+     * @return int|null
+     * @throws NonUniqueResultException
+     */
+    public function getOrderedProductsCount(): ?int
+    {
+        $result =  $this->createQueryBuilder('o')
+            ->select('SUM(d.quantity) as quantity')
+            ->join('o.details', 'd')
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result['quantity'];
+    }
 }

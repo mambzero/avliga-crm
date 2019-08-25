@@ -36,8 +36,4 @@ interface OrderServiceInterface
      */
     public function getErrors(): array;
 
-    /**
-     * @return int
-     */
-    public function ordersThisMonth(): int;
 }

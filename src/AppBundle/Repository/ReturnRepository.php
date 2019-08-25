@@ -116,4 +116,19 @@ class ReturnRepository extends EntityRepository implements ReturnRepositoryInter
 
         return $report['quantity'];
     }
+
+    /**
+     * @return int|null
+     * @throws NonUniqueResultException
+     */
+    public function getReturnedProductsCount(): ?int
+    {
+        $result = $this->createQueryBuilder('r')
+            ->select('SUM(r.quantity) as quantity')
+            ->join('r.product', 'p')
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result['quantity'];
+    }
 }

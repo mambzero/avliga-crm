@@ -53,4 +53,9 @@ interface OrderRepositoryInterface
      * @return int|null
      */
     public function countOrdersByMonth(DateTime $datetime): ?int;
+
+    /**
+     * @return int|null
+     */
+    public function getOrderedProductsCount(): ?int;
 }

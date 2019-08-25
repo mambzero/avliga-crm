@@ -196,4 +196,21 @@ class ReportRepository extends EntityRepository implements ReportRepositoryInter
 
         return $result['reports'];
     }
+
+    /**
+     * @return int|null
+     * @throws NonUniqueResultException
+     */
+    public function getReportedProductsCount(): ?int
+    {
+        $result =  $this->createQueryBuilder('r')
+            ->select('SUM(d.quantity) as quantity')
+            ->join('r.details', 'd')
+            ->join('d.product', 'p')
+            ->where('p.type = 1')
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result['quantity'];
+    }
 }
