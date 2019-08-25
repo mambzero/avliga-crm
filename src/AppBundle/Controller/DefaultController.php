@@ -29,14 +29,14 @@ class DefaultController extends Controller
     {
         $earningsForCurrentMonth = $this->reportService->getEarningsForCurrentMonth();
         $earningsForCurrentYear = $this->reportService->getEarningsForCurrentYear();
-        $ordersCompleted = $this->orderService->getOrdersCompletedPercentage();
         $ordersThisMonth = $this->orderService->ordersThisMonth();
+        $reportsThisMonth = $this->reportService->reportsThisMonth();
 
         return $this->render('default/dashboard.html.twig',[
             'thisMonth' => $earningsForCurrentMonth,
             'thisYear' => $earningsForCurrentYear,
-            'completed' => $ordersCompleted,
-            'orders' => $ordersThisMonth
+            'orders' => $ordersThisMonth,
+            'reports' => $reportsThisMonth
         ]);
     }
 
