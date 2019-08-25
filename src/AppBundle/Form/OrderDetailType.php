@@ -43,7 +43,7 @@ class OrderDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $products = $this->productRepository->listActive();
+        $products = $this->productRepository->listActive(Product::BOOK);
 
         $builder
             ->add('product', EntityType::class,[

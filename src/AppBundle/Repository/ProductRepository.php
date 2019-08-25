@@ -62,18 +62,30 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
     public function listAll(): array
     {
         return $this->createQueryBuilder('p')
-            ->select('p.id, p.title, p.isbn, p.price')
+            ->select([
+                'p.id',
+                'CASE WHEN p.type = 2 THEN CONCAT(p.title, \' (e-book)\') ELSE p.title as title',
+                'p.isbn',
+                'p.price'])
             ->getQuery()
             ->getResult();
     }
 
     /**
      * Returns active products.
+     *
+     * @param int|null $type
      * @return Product[]
      */
-    public function listActive(): array
+    public function listActive($type = null): array
     {
-        return $this->findBy(['active' => true]);
+        $params = ['active' => true];
+
+        if ($type) {
+            $params['type'] = $type;
+        }
+
+        return $this->findBy($params);
     }
 
     /**

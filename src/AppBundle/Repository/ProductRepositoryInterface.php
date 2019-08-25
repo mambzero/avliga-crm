@@ -33,8 +33,10 @@ interface ProductRepositoryInterface
 
     /**
      * Returns active products.
+     *
+     * @param int|null $type
      * @return Product[]
      */
-    public function listActive(): array;
+    public function listActive($type = null): array;
 
 }

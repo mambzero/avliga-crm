@@ -15,6 +15,8 @@ use Symfony\Component\Ldap\Adapter\CollectionInterface;
  */
 class Product
 {
+    const BOOK = 1;
+    const E_BOOK = 2;
     /**
      * @var int
      *
@@ -51,6 +53,13 @@ class Product
      * @ORM\Column(name="imageUrl", type="string", length=255)
      */
     private $imageUrl;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="type", type="integer", options={"default" : 1})
+     */
+    private $type;
 
     /**
      * @var bool
@@ -92,8 +101,6 @@ class Product
      */
     private $returns;
 
-
-
     public function __construct()
     {
         $this->entries = new ArrayCollection();
@@ -133,6 +140,9 @@ class Product
      */
     public function getTitle()
     {
+        if ($this->isEBook()) {
+            return $this->title.' (e-book)';
+        }
         return $this->title;
     }
 
@@ -283,5 +293,30 @@ class Product
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param int
+     */
+    public function setType(int $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEBook(): bool
+    {
+        return $this->type === self::E_BOOK;
+    }
+
 }
 

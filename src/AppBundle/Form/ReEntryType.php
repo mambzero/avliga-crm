@@ -36,7 +36,7 @@ class ReEntryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $clients = $this->clientService->listAll(true);
-        $products = $this->productRepository->listActive();
+        $products = $this->productRepository->listActive(Product::BOOK);
 
         $builder
             ->add('client', EntityType::class, [

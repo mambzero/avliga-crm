@@ -60,7 +60,7 @@ class WarehouseRepository implements WarehouseRepositoryInterface
 		    GROUP BY p.id
             ) AS r ON p.id = r.product_id
             
-            WHERE p.active = 1
+            WHERE p.active = 1 AND p.type = 1
         ';
 
         $stmt = $db->query($sql);

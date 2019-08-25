@@ -18,6 +18,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Type{{ form_errors(form.type) }}</label>
+                    {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+
+                <div class="form-group">
                     <label>Image File{{ form_errors(form.image) }}</label>
                     <input type="file" name="product[image]" class="form-control-file" id="productImage"
                            placeholder="Image File...">

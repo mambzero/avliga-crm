@@ -100,13 +100,19 @@ class ClientService implements ClientServiceInterface
      */
     public function getClientStockByProduct(Client $client, Product $product): ?int
     {
-        $clientInfo =  $this->getClientStocks($client);
+
+        if ($product->isEBook()) {
+            return PHP_INT_MAX;
+        }
+
+        $clientInfo = $this->getClientStocks($client);
 
         foreach ($clientInfo as $item) {
             if ($item['id'] == $product->getId()) {
                 return $item['stock'];
             }
         }
+
         return null;
     }
 }

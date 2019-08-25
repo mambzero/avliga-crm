@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -11,6 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
@@ -26,6 +28,7 @@ class ProductType extends AbstractType
             ->add('title', TextType::class, $this->getOptions('title'))
             ->add('price', NumberType::class, $this->getOptions('price'))
             ->add('isbn', TextType::class, $this->getOptions('isbn'))
+            ->add('type', ChoiceType::class, $this->getOptions('type'))
             ->add('image', FileType::class, $this->getOptions('image'))
             ->add('active', CheckboxType::class,$this->getOptions('active'))
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -69,6 +72,17 @@ class ProductType extends AbstractType
                 $options['constraints'] = [
                     new NotBlank(['message' => $notBlank]),
                     new Length(['min' => 3, 'max' => 255])
+                ];
+                break;
+            case "type":
+                $options['choices'] = [
+                    'Book' => 1,
+                    'E-book' => 2
+                ];
+                $options['constraints'] = [
+                    new Choice([
+                        'choices' => [1, 2]
+                    ])
                 ];
                 break;
             case "price":
