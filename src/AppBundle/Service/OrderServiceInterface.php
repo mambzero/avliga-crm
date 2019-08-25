@@ -37,11 +37,6 @@ interface OrderServiceInterface
     public function getErrors(): array;
 
     /**
-     * @return float
-     */
-    public function getOrdersCompletedPercentage(): float;
-
-    /**
      * @return int
      */
     public function ordersThisMonth(): int;

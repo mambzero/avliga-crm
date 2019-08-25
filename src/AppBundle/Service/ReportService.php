@@ -161,4 +161,16 @@ class ReportService implements ReportServiceInterface
 
     }
 
+    /**
+     * @return int
+     * @throws Exception
+     */
+    public function reportsThisMonth(): int
+    {
+        $datetime = new DateTime('now');
+        $reports = $this->reportRepository->countReportsByMonth($datetime);
+
+        return $reports === null ? 0 : $reports;
+
+    }
 }

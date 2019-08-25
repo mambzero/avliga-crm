@@ -52,4 +52,9 @@ interface ReportServiceInterface
      */
     public function getEarningsForCurrentMonth(): float;
 
+    /**
+     * @return int
+     */
+    public function reportsThisMonth(): int;
+
 }
