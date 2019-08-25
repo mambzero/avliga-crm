@@ -49,11 +49,6 @@ interface OrderRepositoryInterface
     public function getOrders(): array;
 
     /**
-     * @return int|null
-     */
-    public function getOrderedProductsCount(): ?int;
-
-    /**
      * @param DateTime $datetime
      * @return int|null
      */

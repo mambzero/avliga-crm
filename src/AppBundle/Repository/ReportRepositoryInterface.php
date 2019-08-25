@@ -57,7 +57,8 @@ interface ReportRepositoryInterface
     public function getEarningsMonthly(DateTime $datetime): ?float;
 
     /**
+     * @param Datetime $datetime
      * @return int|null
      */
-    public function getReportedProductsCount(): ?int;
+    public function countReportsByMonth(Datetime $datetime): ?int;
 }

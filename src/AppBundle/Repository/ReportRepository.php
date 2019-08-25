@@ -173,17 +173,27 @@ class ReportRepository extends EntityRepository implements ReportRepositoryInter
     }
 
     /**
+     * @param Datetime $datetime
      * @return int|null
      * @throws NonUniqueResultException
      */
-    public function getReportedProductsCount(): ?int
+    public function countReportsByMonth(Datetime $datetime): ?int
     {
-        $result =  $this->createQueryBuilder('r')
-            ->select('SUM(d.quantity) as quantity')
-            ->leftJoin('r.details', 'd')
+        $result = $this->createQueryBuilder('r')
+            ->select([
+                'COUNT(r.id) as reports',
+                'DATE_FORMAT(r.dateAdded, \'%b\') as month',
+                'DATE_FORMAT(r.dateAdded, \'%Y\') as year'
+            ])
+            ->groupBy('month, year')
+            ->having('month = :month AND year = :year')
+            ->setParameters([
+                'month' => $datetime->format('M'),
+                'year' => $datetime->format('Y')
+            ])
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $result['quantity'];
+        return $result['reports'];
     }
 }
