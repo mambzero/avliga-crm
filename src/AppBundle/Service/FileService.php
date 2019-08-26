@@ -120,7 +120,8 @@ class FileService
     public function uploadFile()
     {
         $file = $this->getFile();
-        $fileName = $file->getClientOriginalName();
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $fileName = $originalFilename.'_'.uniqid().'.'.$file->guessExtension();
         $path = $this->rootDir.$this->mainDir;
 
         try {
