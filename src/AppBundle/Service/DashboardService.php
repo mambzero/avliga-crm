@@ -145,7 +145,7 @@ class DashboardService implements DashboardServiceInterface
         $reportedProducts = $this->reportRepository->getReportedProductsCount();
         $returnedProducts = $this->returnRepository->getReturnedProductsCount();
 
-        return round((($reportedProducts + $returnedProducts) / $orderedProducts) * 100);
+        return round((($reportedProducts + $returnedProducts) / $orderedProducts) * 100, 2);
 
     }
 }
