@@ -89,6 +89,17 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
     }
 
     /**
+     * @return Product[]
+     */
+    public function listAlphabetical(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.title', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * @param int $id
      * @return Product|Object|null
      */
@@ -96,4 +107,5 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
     {
         return $this->find($id);
     }
+
 }

@@ -26,17 +26,22 @@ interface ProductRepositoryInterface
     public function listAll(): array;
 
     /**
-     * @param int $id
-     * @return Product|Object|null
-     */
-    public function findOne($id): ?Product;
-
-    /**
      * Returns active products.
      *
      * @param int|null $type
      * @return Product[]
      */
     public function listActive($type = null): array;
+
+    /**
+     * @return Product[]
+     */
+    public function listAlphabetical(): array;
+
+    /**
+     * @param int $id
+     * @return Product|Object|null
+     */
+    public function findOne($id): ?Product;
 
 }
