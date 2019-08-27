@@ -37,14 +37,14 @@ class DashboardService implements DashboardServiceInterface
         $reportedProducts = $this->reportRepository->getReportedProductsCount();
         $returnedProducts = $this->returnRepository->getReturnedProductsCount();
 
-        $reported = round(($reportedProducts / $orderedProducts) * 100);
-        $returned = round(($returnedProducts / $orderedProducts) * 100);
+        $reported = $orderedProducts === 0 ? 0 : round(($reportedProducts / $orderedProducts) * 100);
+        $returned = $orderedProducts === 0 ? 0 : round(($returnedProducts / $orderedProducts) * 100);
 
         $keys = ['Reported', 'Returned', 'In Clients'];
         $values = [
             $reported,
             $returned,
-            100 - $reported - $returned
+            $orderedProducts > 0 ? 100 - $reported - $returned : 0
         ];
 
         return [
@@ -145,7 +145,7 @@ class DashboardService implements DashboardServiceInterface
         $reportedProducts = $this->reportRepository->getReportedProductsCount();
         $returnedProducts = $this->returnRepository->getReturnedProductsCount();
 
-        return round((($reportedProducts + $returnedProducts) / $orderedProducts) * 100, 2);
+        return $orderedProducts === 0 ? 0 : round((($reportedProducts + $returnedProducts) / $orderedProducts) * 100, 2);
 
     }
 }
