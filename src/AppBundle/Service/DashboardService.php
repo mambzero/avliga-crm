@@ -39,13 +39,10 @@ class DashboardService implements DashboardServiceInterface
 
         $reported = round(($reportedProducts / $orderedProducts) * 100);
         $returned = round(($returnedProducts / $orderedProducts) * 100);
+        $inClients = $returned == 0 && $reported == 0 ? 0 : 100 - $reported - $returned;
 
         $keys = ['Reported', 'Returned', 'In Clients'];
-        $values = [
-            $reported,
-            $returned,
-            100 - $reported - $returned
-        ];
+        $values = [$reported, $returned, $inClients];
 
         return [
             'keys' => $keys,
