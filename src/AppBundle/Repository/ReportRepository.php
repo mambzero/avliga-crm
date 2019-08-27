@@ -211,6 +211,6 @@ class ReportRepository extends EntityRepository implements ReportRepositoryInter
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $result === null ? 0 : $result['quantity'];
+        return $result['quantity'] === null ? 0 : $result['quantity'];
     }
 }

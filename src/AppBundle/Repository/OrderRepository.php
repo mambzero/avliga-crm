@@ -181,6 +181,6 @@ class OrderRepository extends EntityRepository implements OrderRepositoryInterfa
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $result === null ? 0 : $result['quantity'];
+        return $result['quantity'] === null ? 0 : $result['quantity'];
     }
 }
