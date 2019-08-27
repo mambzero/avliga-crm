@@ -1,6 +1,6 @@
 // JavaScript File
 
-$.ajax('/products/pie', {
+$.ajax('/chart/products', {
     success: function (data) {
         Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
         Chart.defaults.global.defaultFontColor = '#858796';

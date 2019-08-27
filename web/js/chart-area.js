@@ -26,7 +26,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 
-$.ajax('/earnings',{
+$.ajax('/chart/earnings',{
   success: function(data) {
 
     // Set new default font family and font color to mimic Bootstrap's default styling
