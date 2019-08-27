@@ -131,6 +131,13 @@ class Report implements HistoryInterface
         $this->details[] = $detail;
     }
 
+    public function removeDetail(ReportDetail $reportDetail)
+    {
+        if ($this->details->contains($reportDetail)) {
+            $this->details->removeElement($reportDetail);
+        }
+    }
+
     public function hasDetailWithProduct(Product $product): bool
     {
         foreach ($this->getDetails() as $detail) {
@@ -197,5 +204,6 @@ class Report implements HistoryInterface
     {
         return 'Report';
     }
+
 }
 
