@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping;
 use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 
 /**
  * ReportDetailRepository
@@ -42,5 +43,21 @@ class ReportDetailRepository extends EntityRepository implements ReportDetailRep
             ->getOneOrNullResult();
 
         return $detail['quantity'];
+    }
+
+
+    /**
+     * @param ReportDetail $reportDetail
+     * @return bool
+     */
+    public function remove(ReportDetail $reportDetail): bool
+    {
+        try {
+            $this->_em->remove($reportDetail);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            return false;
+        }
+        return true;
     }
 }
