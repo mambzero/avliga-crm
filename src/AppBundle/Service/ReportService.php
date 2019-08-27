@@ -8,8 +8,10 @@ use AppBundle\Entity\Report;
 use AppBundle\Entity\ReportDetail;
 use AppBundle\Repository\OrderRepositoryInterface;
 use AppBundle\Repository\ProductRepositoryInterface;
+use AppBundle\Repository\ReportDetailRepositoryInterface;
 use AppBundle\Repository\ReportRepositoryInterface;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Component\Validator\Constraints\Date;
 
@@ -33,9 +35,9 @@ class ReportService implements ReportServiceInterface
     {
         $reportId = $report->getId();
 
-        foreach ($report->getDetails() as $key => $detail) {
+        foreach ($report->getDetails() as $detail) {
             if (is_null($detail->getQuantity())) {
-                $report->getDetails()->remove($key);
+                $report->removeDetail($detail);
             }
         }
 
