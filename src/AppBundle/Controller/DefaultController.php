@@ -41,20 +41,20 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/earnings", name="earnings", methods={"GET"})
+     * @Route("/chart/earnings", name="earnings", methods={"GET"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function getEarnings()
+    public function chartEarnings()
     {
         $earnings = $this->dashboardService->earningsChartData();
         return new JsonResponse($earnings,Response::HTTP_OK);
     }
 
     /**
-     * @Route("/products/pie", name="products_pie", methods={"GET"})
+     * @Route("/chart/products", name="products_pie", methods={"GET"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function productsPie()
+    public function chartProducts()
     {
         $pieData = $this->dashboardService->productsPieData();
         return new JsonResponse($pieData,Response::HTTP_OK);
