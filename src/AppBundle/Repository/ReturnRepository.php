@@ -121,7 +121,7 @@ class ReturnRepository extends EntityRepository implements ReturnRepositoryInter
      * @return int|null
      * @throws NonUniqueResultException
      */
-    public function getReturnedProductsCount(): ?int
+    public function getReturnedProductsCount(): int
     {
         $result = $this->createQueryBuilder('r')
             ->select('SUM(r.quantity) as quantity')
@@ -129,6 +129,6 @@ class ReturnRepository extends EntityRepository implements ReturnRepositoryInter
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $result['quantity'];
+        return $result === null ? 0 : $result['quantity'];
     }
 }

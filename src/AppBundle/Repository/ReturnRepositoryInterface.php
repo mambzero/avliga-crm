@@ -46,5 +46,5 @@ interface ReturnRepositoryInterface
     /**
      * @return int|null
      */
-    public function getReturnedProductsCount(): ?int;
+    public function getReturnedProductsCount(): int;
 }

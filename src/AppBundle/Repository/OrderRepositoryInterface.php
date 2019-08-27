@@ -57,5 +57,5 @@ interface OrderRepositoryInterface
     /**
      * @return int|null
      */
-    public function getOrderedProductsCount(): ?int;
+    public function getOrderedProductsCount(): int;
 }

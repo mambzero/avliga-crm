@@ -65,5 +65,5 @@ interface ReportRepositoryInterface
     /**
      * @return int|null
      */
-    public function getReportedProductsCount(): ?int;
+    public function getReportedProductsCount(): int;
 }
