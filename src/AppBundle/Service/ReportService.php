@@ -81,7 +81,7 @@ class ReportService implements ReportServiceInterface
     public function getInstance(int $id = null): ?Report
     {
         $report = $id === null ? new Report() : $this->getById($id);
-        $products = $this->productRepository->listActive();
+        $products = $this->productRepository->listAlphabetical();
 
         if (!$report) {
             return null;
