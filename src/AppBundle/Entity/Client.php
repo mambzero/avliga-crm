@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\_Interface\HistoryInterface;
+use ArrayIterator;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -110,12 +112,20 @@ class Client
      */
     private $privatePerson;
 
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(name="date_added", type="datetime")
+     */
+    private $dateAdded;
+
     public function __construct($privatePerson = false)
     {
         $this->orders = new ArrayCollection();
         $this->reports = new ArrayCollection();
         $this->returns = new ArrayCollection();
         $this->privatePerson = $privatePerson;
+        $this->dateAdded = new DateTime('now');
         if ($privatePerson) {
             $this->setUniqueIdentifier(uniqid());
             $this->setCompany('N/A');
@@ -457,7 +467,7 @@ class Client
         return 'Company';
     }
 
-    public function getHistory(): \ArrayIterator
+    public function getHistory(): ArrayIterator
     {
         /** @var ArrayCollection */
         $collection = new ArrayCollection(array_merge(
@@ -474,6 +484,22 @@ class Client
 
         return $history;
 
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDateAdded(): ?DateTime
+    {
+        return $this->dateAdded;
+    }
+
+    /**
+     * @param DateTime $dateAdded
+     */
+    public function setDateAdded(DateTime $dateAdded): void
+    {
+        $this->dateAdded = $dateAdded;
     }
 
 }
