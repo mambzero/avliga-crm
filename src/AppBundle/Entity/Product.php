@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -101,12 +102,20 @@ class Product
      */
     private $returns;
 
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(name="date_added", type="datetime")
+     */
+    private $dateAdded;
+
     public function __construct()
     {
         $this->entries = new ArrayCollection();
         $this->orderDetails = new ArrayCollection();
         $this->reportDetails = new ArrayCollection();
         $this->returns = new ArrayCollection();
+        $this->dateAdded = new DateTime('now');
     }
 
     /**
@@ -316,6 +325,22 @@ class Product
     public function isEBook(): bool
     {
         return $this->type === self::E_BOOK;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDateAdded(): ?DateTime
+    {
+        return $this->dateAdded;
+    }
+
+    /**
+     * @param DateTime $dateAdded
+     */
+    public function setDateAdded(DateTime $dateAdded): void
+    {
+        $this->dateAdded = $dateAdded;
     }
 
 }
