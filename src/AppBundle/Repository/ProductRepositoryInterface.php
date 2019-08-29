@@ -34,6 +34,7 @@ interface ProductRepositoryInterface
     public function listActive($type = null): array;
 
     /**
+     * Return alphabetical array of active products.
      * @return Product[]
      */
     public function listAlphabetical(): array;

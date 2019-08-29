@@ -94,6 +94,7 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
     public function listAlphabetical(): array
     {
         return $this->createQueryBuilder('p')
+            ->where('p.active = 1')
             ->orderBy('p.title', 'ASC')
             ->getQuery()
             ->getResult();
