@@ -6,14 +6,8 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Report;
 use AppBundle\Entity\ReportDetail;
-use AppBundle\Repository\OrderRepositoryInterface;
 use AppBundle\Repository\ProductRepositoryInterface;
-use AppBundle\Repository\ReportDetailRepositoryInterface;
 use AppBundle\Repository\ReportRepositoryInterface;
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Exception;
-use Symfony\Component\Validator\Constraints\Date;
 
 class ReportService implements ReportServiceInterface
 {
