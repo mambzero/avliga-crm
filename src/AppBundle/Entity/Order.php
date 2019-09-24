@@ -186,7 +186,7 @@ class Order implements HistoryInterface
         $total = 0;
 
         foreach ($this->getDetails() as $detail) {
-            $total += (($detail->getPrice() * $detail->getQuantity()) * ((100 - $detail->getDiscount())/100));
+            $total += round(($detail->getPrice() * $detail->getQuantity()) * ((100 - $detail->getDiscount())/100),2);
         }
 
         return number_format($total, 2 , '.', '');
