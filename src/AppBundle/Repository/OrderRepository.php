@@ -76,7 +76,7 @@ class OrderRepository extends EntityRepository implements OrderRepositoryInterfa
                 'o.id',
                 'CASE WHEN c.privatePerson = 1 THEN c.responsiblePerson ELSE c.company END as client',
                 'SUM(d.quantity) as quantity',
-                'sum(d.price * d.quantity) as price',
+                'SUM(d.price * d.quantity) as price',
                 'SUM(d.price * d.quantity) - SUM(ROUND((d.price * d.quantity) * (100 - d.discount)/100,2)) as discount',
                 'SUM(ROUND((d.price * d.quantity) * (100 - d.discount)/100,2)) as total',
                 'DATE_FORMAT(o.dateAdded, \'%Y-%m-%d %H:%i\') as date'
