@@ -25,7 +25,8 @@ class WarehouseRepository implements WarehouseRepositoryInterface
     {
         $db = $this->entityManager->getConnection();
         $sql = '
-            SELECT 
+            SELECT
+                p.id,
                 p.title,
                 e.quantity as entries,
                 d.quantity as orders,
