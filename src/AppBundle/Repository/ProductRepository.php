@@ -64,7 +64,7 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
         return $this->createQueryBuilder('p')
             ->select([
                 'p.id',
-                'CASE WHEN p.type = 2 THEN CONCAT(p.title, \' (e-book)\') ELSE p.title as title',
+                'CASE WHEN p.type = 2 THEN CONCAT(p.title, \' (e-book)\') ELSE p.title END as title',
                 'p.isbn',
                 'p.price'])
             ->getQuery()
