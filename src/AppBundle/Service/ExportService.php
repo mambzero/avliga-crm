@@ -10,6 +10,7 @@ use AppBundle\Repository\WarehouseRepositoryInterface;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ExportService
 {
@@ -130,7 +131,7 @@ class ExportService
         $sheet->getColumnDimension('A')->setAutoSize(true);
 
         // Rename worksheet
-        $this->spreadsheet->getActiveSheet()->setTitle(mb_strtoupper($title));
+        $this->spreadsheet->getActiveSheet()->setTitle($this->sheetTitle($title));
     }
 
     private function getWarehouseStocks()
@@ -198,6 +199,14 @@ class ExportService
         uasort($data, function ($item1, $item2) use ($column) {
             return $item1[$column] <=> $item2[$column];
         });
+    }
+
+    private function sheetTitle($title) {
+        if (mb_strlen($title) > Worksheet::SHEET_TITLE_MAXIMUM_LENGTH) {
+            $title = mb_substr($title, 0, Worksheet::SHEET_TITLE_MAXIMUM_LENGTH - 2) . '..';
+            return mb_strtoupper($title);
+        }
+        return $title;
     }
 
 }
