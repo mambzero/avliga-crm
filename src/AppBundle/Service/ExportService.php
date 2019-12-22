@@ -203,10 +203,9 @@ class ExportService
 
     private function sheetTitle($title) {
         if (mb_strlen($title) > Worksheet::SHEET_TITLE_MAXIMUM_LENGTH) {
-            $title = mb_substr($title, 0, Worksheet::SHEET_TITLE_MAXIMUM_LENGTH - 2) . '..';
-            return mb_strtoupper($title);
+            $title = mb_substr($title, 0, Worksheet::SHEET_TITLE_MAXIMUM_LENGTH - 2).'..';
         }
-        return $title;
+        return mb_strtoupper($title);
     }
 
 }
