@@ -7,3 +7,6 @@
 /web/bundles/
 /.idea
 /web/uploads/
+.htaccess
+php.fcgi
+php72-fcgi.ini
