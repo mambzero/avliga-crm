@@ -34,6 +34,9 @@ services:
         arguments:
             $rootDir: '%kernel.project_dir%'
 
+    AppBundle\Service\KernelSubscriber:
+        tags: ['kernel.event_subscriber']
+
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:
