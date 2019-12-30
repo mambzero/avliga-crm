@@ -8,6 +8,7 @@
 /.idea
 /web/uploads/
 /web/error_log
+error_log
 .htaccess
 php.fcgi
 php72-fcgi.ini
