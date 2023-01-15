@@ -9,6 +9,7 @@ use AppBundle\Service\ClientServiceInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -32,6 +33,18 @@ class ReportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $clients = $this->clientService->listAll(true);
+
+        $builder->add('dateAdded', DateType::class, [
+            'widget' => 'single_text',
+
+            // prevents rendering it as type="date", to avoid HTML5 date pickers
+            'html5' => false,
+
+            'constraints' => [
+                new NotBlank(),
+            ],
+            'required' => false
+        ]);
 
         $builder->add('client', EntityType::class, [
             'class' => Client::class,

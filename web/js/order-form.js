@@ -1,4 +1,4 @@
-// Javascipt  File
+// JavaScript  File
 
 let collectionHolder;
 
@@ -107,4 +107,12 @@ $('.chosen-plugin').chosen().on('change',function (e,params) {
 
 $('[data-toggle="tooltip"]').tooltip({
     trigger: 'hover'
+});
+
+$(document).ready(function() {
+    // you may need to change this code if you are not using Bootstrap Datepicker
+    $('.bootstrap-datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true
+    });
 });

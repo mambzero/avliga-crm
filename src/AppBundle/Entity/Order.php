@@ -99,10 +99,15 @@ class Order implements HistoryInterface
      * @param \DateTime $dateAdded
      *
      * @return Order
+     * @throws \Exception
      */
     public function setDateAdded($dateAdded)
     {
-        $this->dateAdded = $dateAdded;
+        if (empty($dateAdded)) {
+            $dateAdded = new \DateTime('now');
+        }
+
+        $this->dateAdded = $dateAdded->setTime(date('H'), date('i'), date('s'));
 
         return $this;
     }

@@ -66,4 +66,9 @@ interface ReportRepositoryInterface
      * @return int|null
      */
     public function getReportedProductsCount(): int;
+
+    /**
+     * @return array
+     */
+    public function getDistinctReportYears(): array;
 }

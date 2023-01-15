@@ -1,33 +1,36 @@
+(function () {
 
+  var myLineChart;
+  var chartTitle = document.getElementById('earnings-table-title');
+  var totalEarnings = document.getElementById('total-year-earnings');
 
-function number_format(number, decimals, dec_point, thousands_sep) {
-  // *     example: number_format(1234.56, 2, ',', ' ');
-  // *     return: '1 234,56'
-  number = (number + '').replace(',', '').replace(' ', '');
-  var n = !isFinite(+number) ? 0 : +number,
-    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-    s = '',
-    toFixedFix = function(n, prec) {
-      var k = Math.pow(10, prec);
-      return '' + Math.round(n * k) / k;
-    };
-  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-  if (s[0].length > 3) {
-    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+  function number_format(number, decimals, dec_point, thousands_sep) {
+    // *     example: number_format(1234.56, 2, ',', ' ');
+    // *     return: '1 234,56'
+    number = (number + '').replace(',', '').replace(' ', '');
+    var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        s = '',
+        toFixedFix = function(n, prec) {
+          var k = Math.pow(10, prec);
+          return '' + Math.round(n * k) / k;
+        };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+      s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+      s[1] = s[1] || '';
+      s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
   }
-  if ((s[1] || '').length < prec) {
-    s[1] = s[1] || '';
-    s[1] += new Array(prec - s[1].length + 1).join('0');
-  }
-  return s.join(dec);
-}
 
 
-$.ajax('/chart/earnings',{
-  success: function(data) {
+  function drawChart(data) {
 
     // Set new default font family and font color to mimic Bootstrap's default styling
     Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -36,7 +39,7 @@ $.ajax('/chart/earnings',{
     // Area Chart Example
     var ctx = document.getElementById("myAreaChart");
 
-    var myLineChart = new Chart(ctx, {
+    myLineChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: data.months,
@@ -124,4 +127,38 @@ $.ajax('/chart/earnings',{
       }
     });
   }
-});
+
+  function updateChartTitleByYear(year) {
+    chartTitle.innerHTML = 'Earnings Overview ' + year;
+  }
+
+  function updateTotalYearEarnings(year, data)
+  {
+    $(totalEarnings).find('.e-title').text('Earnings ('+ year +')');
+    $(totalEarnings).find('.e-value').text(data.totals.reduce(function (acc, value) {
+      return acc + value;
+    }).toFixed(2) +' лв');
+  }
+
+  $.ajax('/chart/earnings/' + new Date().getFullYear(),{
+    success: drawChart
+  });
+
+  $('.earnings-by-year-link').on('click', function (e) {
+    e.preventDefault();
+    var url = $(this).attr('href');
+    $.ajax(url,{
+      success: function (data) {
+        if (myLineChart !== undefined) {
+          myLineChart.destroy();
+        }
+        var year = url.split('/').pop();
+
+        drawChart(data);
+        updateChartTitleByYear(year);
+        updateTotalYearEarnings(year, data);
+      }
+    });
+  });
+
+})();
