@@ -213,4 +213,13 @@ class ReportRepository extends EntityRepository implements ReportRepositoryInter
 
         return $result['quantity'] === null ? 0 : $result['quantity'];
     }
+
+    public function getDistinctReportYears(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('DISTINCT YEAR(r.dateAdded) as year')
+            ->orderBy('year', 'DESC')
+            ->getQuery()
+            ->getArrayResult();
+    }
 }

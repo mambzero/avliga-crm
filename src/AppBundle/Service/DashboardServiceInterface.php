@@ -12,9 +12,10 @@ interface DashboardServiceInterface
     public function productsPieData(): array;
 
     /**
+     * @param \DateTime $dateTime
      * @return array
      */
-    public function earningsChartData(): array;
+    public function earningsChartData(\DateTime $dateTime): array;
 
     /**
      * @return int
@@ -40,4 +41,9 @@ interface DashboardServiceInterface
      * @return int
      */
     public function getOrdersCompletedPercentage(): int;
+
+    /**
+     * @return array
+     */
+    public function getChartAreaReportYears(): array;
 }

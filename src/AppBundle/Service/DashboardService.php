@@ -55,12 +55,11 @@ class DashboardService implements DashboardServiceInterface
     }
 
     /**
+     * @param DateTime $datetime
      * @return array
-     * @throws Exception
      */
-    public function earningsChartData(): array
+    public function earningsChartData(\DateTime $datetime): array
     {
-        $datetime = new DateTime('now');
         $data = $this->reportRepository->getEarningsByMonths($datetime);
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $totals = array_fill(0,12, 0);
@@ -147,5 +146,12 @@ class DashboardService implements DashboardServiceInterface
 
         return $orderedProducts === 0 ? 0 : round((($reportedProducts + $returnedProducts) / $orderedProducts) * 100, 2);
 
+    }
+
+    public function getChartAreaReportYears(): array
+    {
+        return array_map(function ($item) {
+            return $item['year'];
+        }, $this->reportRepository->getDistinctReportYears());
     }
 }

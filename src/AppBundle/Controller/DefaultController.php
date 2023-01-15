@@ -31,22 +31,29 @@ class DefaultController extends Controller
 
         $ordersCompleted = $this->dashboardService->getOrdersCompletedPercentage();
 
+        $years = $this->dashboardService->getChartAreaReportYears();
+
         return $this->render('default/dashboard.html.twig',[
             'thisMonth' => $earningsForCurrentMonth,
             'thisYear' => $earningsForCurrentYear,
             'orders' => $ordersThisMonth,
             'reports' => $reportsThisMonth,
-            'completed' => $ordersCompleted
+            'completed' => $ordersCompleted,
+            'years' => $years,
         ]);
     }
 
     /**
-     * @Route("/chart/earnings", name="earnings", methods={"GET"})
+     * @Route("/chart/earnings/{year}", name="earnings", methods={"GET"})
      * @Security("has_role('ROLE_USER')")
+     * @param $year
+     * @return JsonResponse
+     * @throws \Exception
      */
-    public function chartEarnings()
+    public function chartEarnings(string $year)
     {
-        $earnings = $this->dashboardService->earningsChartData();
+        $datetime = new \DateTime("$year-01-01");
+        $earnings = $this->dashboardService->earningsChartData($datetime);
         return new JsonResponse($earnings,Response::HTTP_OK);
     }
 
