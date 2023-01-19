@@ -9,6 +9,6 @@ class AppBundle extends Bundle
     public function boot()
     {
         parent::boot();
-        date_default_timezone_set("Europe/Athens");
+        date_default_timezone_set("Europe/Sofia");
     }
 }
