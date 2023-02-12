@@ -1,1 +1,1 @@
-web/vendor/* linguist-vendored
+web/vendor/** linguist-vendored
